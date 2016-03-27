@@ -1,34 +1,50 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
+using System;
 
-public class camera : MonoBehaviour {
-   
-    WebCamDevice[] devices;
-    WebCamDevice cam;
-    WebCamTexture camTexture;
+public class Camera : MonoBehaviour {
+    public int filter = 3;
+    public float tiltAngle = 90.0F;
     // Use this for initialization
-
     void Start () {
-   
-        devices = WebCamTexture.devices;
-   
-        for (var i = 0; i < devices.Length; i++)
-            if (!devices[i].isFrontFacing)
-            {
-                cam = devices[i];
-                camTexture = new WebCamTexture(cam.name);
-                camTexture.Play();
-                break;
-            }
-            
-    }
+	
+	}
 	
 	// Update is called once per frame
 	void Update () {
-        var renderer = GetComponent<Renderer>();
 
-        renderer.material.mainTexture = camTexture;
-   
+        Quaternion target = Quaternion.Euler(getX()* -1, getY(), getZ()*-1);
+        transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime);
+        Debug.Log("rotation: " + transform.rotation.ToString());
+        
+       
     }
+    float getX()
+    {
+        float value = (float)Math.Round(Input.acceleration.z, filter);
+
+        return value * tiltAngle;
+    }
+    float getY()
+    {
+        float value = (float)Math.Round(Input.acceleration.y, filter);
+       
+        return value * tiltAngle * 0f;
+    }
+    float getZ()
+    {
+        float value = (float)Math.Round(Input.acceleration.x, filter);
+        if (value == 0)
+        {
+            value = Input.GetAxis("Horizontal");
+
+        }
+        Debug.Log("GetZ: " + value);
+        return value * tiltAngle;
+    }
+    float getW()
+    {
+        return 0.0f * tiltAngle;
+    }
+
 }
