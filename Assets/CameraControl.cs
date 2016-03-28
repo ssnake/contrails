@@ -7,38 +7,42 @@ public class CameraControl : MonoBehaviour {
     public float tiltAngle = 90.0F;
     // Use this for initialization
     void Start () {
-	
-	}
+        MainController.camControl = this;
+        Input.compass.enabled = true;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
         Quaternion target = Quaternion.Euler(getX()* -1, getY(), getZ()*-1);
         transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime);
-        Debug.Log("rotation: " + transform.rotation.ToString());
+       
+        //Debug.Log("rotation: " + transform.rotation.ToString());
         
        
     }
-    float getX()
+    public float getX()
     {
         float value = (float)Math.Round(Input.acceleration.z, filter);
 
         return value * tiltAngle;
     }
-    float getY()
+    public float getY()
     {
-        float value = (float)Math.Round(Input.acceleration.y, filter);
-       
-        return value * tiltAngle * 0f;
-    }
-    float getZ()
-    {
-        float value = (float)Math.Round(Input.acceleration.x, filter);
+        float value = (float)Input.compass.magneticHeading;
         if (value == 0)
-        {
-            value = Input.GetAxis("Horizontal");
+        {   
+            
+            value = transform.rotation.eulerAngles.y  + Input.GetAxis("Mouse X") * tiltAngle * 2.0f;
+            Debug.Log("getY: " + value);
 
         }
+        return value ;
+    }
+    public float getZ()
+    {
+        float value = (float)Math.Round(Input.acceleration.x, filter);
         Debug.Log("GetZ: " + value);
         return value * tiltAngle;
     }

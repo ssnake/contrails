@@ -1,35 +1,40 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class UI : MonoBehaviour {
     public bool showCameras = true;
     public bool showGyro = true;
-    Text text;
+    public Text accel;
+    public Text gps;
 	// Use this for initialization
 	void Start () {
-	    text = GetComponent<Text>(); 
+
+        MainController.ui = this;
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        text.text = "";
+        accel.text = "";
         if (showCameras) showCams();
         if (showGyro) showGyroInfo();
 
     }
     void showCams()
     {
-        text.text += "Camera Count: " + WebCamTexture.devices.Length +"\n";
+        accel.text += "Camera Count: " + WebCamTexture.devices.Length +"\n";
 
     }
     void showGyroInfo()
     {
-        text.text += "Gyro x: " + Input.acceleration.x + "\n";
-        text.text += "Gyro y: " + Input.acceleration.y + "\n";
-        text.text += "Gyro z: " + Input.acceleration.z + "\n";
+        accel.text += "Input x: " + MainController.camControl.getX() + "\n";
+        accel.text += "Input y: " + MainController.camControl.getY() + "\n";
+        accel.text += "Input z: " + MainController.camControl.getZ() + "\n";
 
+
+    }
+    void showLocation()
+    {
 
     }
 }
