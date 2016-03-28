@@ -75,9 +75,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CameraControl.cs" />
     <Compile Include="Assets\UI.cs" />
     <Compile Include="Assets\Webcamera.cs" />
-    <Compile Include="Assets\camera.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Forest Grounds - Terrain Texture Pack\Readme.txt" />

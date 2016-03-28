@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class Camera : MonoBehaviour {
+public class CameraControl : MonoBehaviour {
     public int filter = 3;
     public float tiltAngle = 90.0F;
     // Use this for initialization
