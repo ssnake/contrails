@@ -39,8 +39,8 @@ public class UI : MonoBehaviour {
     }
     void showLocation()
     {
-        gps.text += "Gps Status: " + Input.location.status.ToString() + "\n";
-        gps.text += "Lat: " + Input.location.lastData.latitude + "\n";
-        gps.text += "Long: " + Input.location.lastData.longitude + "\n";
+        gps.text += "Gps Status: " + MainController.gpsController.GetStatus() + "\n";
+        gps.text += "Lat: " + MainController.gpsController.GetLatitude() + "\n";
+        gps.text += "Long: " + MainController.gpsController.GetLongitude() + "\n";
     }
 }

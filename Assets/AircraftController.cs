@@ -30,7 +30,7 @@ public class AircraftController : MonoBehaviour {
             {
                 deleteList.Remove(airObject);
             }
-            a.Apply(airObject);
+            Apply(a, airObject);
 
 
         }
@@ -41,5 +41,15 @@ public class AircraftController : MonoBehaviour {
         }
 	
 	}
+    void Apply(Aircraft craft, GameObject obj)
+    {
+        var x = obj.transform.position.x;
+        var y = obj.transform.position.y;
+        var lat = craft.latitude;
+        var lng = craft.longitude;
+        MainController.mapController.LatLong2XY(lat, lng, out x, out y);
+        obj.transform.Translate(x, y, craft.altitude);
+
+    }
 
 }

@@ -26,8 +26,8 @@ class AircrafImporterEmulate : AirtcraftImporter
             list.Add(generateAircraft(i, baseLong, baseLat, radiusKM));
 
         }
-        //my place lat 50.907154, long 34.820437
-        list.Add(generateAircraft(11, 34.820437f, 50.907154f, 0));
+        
+        list.Add(generateAircraft(11, MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 0));
     }
     Aircraft generateAircraft(int id, float baseLong, float baseLat, int radiusKM)
     {
@@ -64,9 +64,5 @@ internal class Aircraft
         this.latitude = latitude;
         this.altitude = altitude;
     }
-    public void Apply(GameObject go)
-    {
-        go.transform.Translate(new Vector3(longitude, altitude, latitude));
-        go.name = "aircraft_" + id;
-    }
+   
 }
