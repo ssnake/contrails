@@ -5,6 +5,8 @@ public class MainController : MonoBehaviour {
     public static MainController controller;
     public static UI ui;
     public static CameraControl camControl;
+
+
 	// Use this for initialization
 	void Awake () {
         if (MainController.controller == null) {
