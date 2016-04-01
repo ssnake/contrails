@@ -31,7 +31,7 @@ public class CameraControl : MonoBehaviour {
         if (value == 0)
         {
             value = transform.rotation.eulerAngles.x + Input.GetAxis("Mouse Y")  * Time.deltaTime * speed * -1.0f;
-            Debug.Log("Mouse Y: " + Input.GetAxis("Mouse Y"));
+            //Debug.Log("Mouse Y: " + Input.GetAxis("Mouse Y"));
         }
 
         return value ;
@@ -43,7 +43,7 @@ public class CameraControl : MonoBehaviour {
         {
             //transform.Rotate(Vector3.up, Input.GetAxis("Mouse X"));
             value =transform.rotation.eulerAngles.y +  Input.GetAxis("Mouse X")  * Time.deltaTime * speed;
-            Debug.Log("Mouse X: " + Input.GetAxis("Mouse X"));
+            //Debug.Log("Mouse X: " + Input.GetAxis("Mouse X"));
 
         }
         return value ;
@@ -51,7 +51,7 @@ public class CameraControl : MonoBehaviour {
     public float getZ()
     {
         float value = (float)Math.Round(Input.acceleration.x, filter) * -1.0f;
-        Debug.Log("GetZ: " + value);
+        //Debug.Log("GetZ: " + value);
         return value * tiltAngle;
     }
     float getW()

@@ -11,22 +11,30 @@ public class AircraftController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        importer = new AirtcraftImporter();
+        importer = new AircrafImporterEmulate(MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 50, 10 );
+        Import();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        
+	}
+    void Import()
+    {
         var deleteList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
 
         foreach (Aircraft a in importer.Import())
         {
-            var airObject = GameObject.FindWithTag("aircraft_" + a.id);
+            var airObject = GameObject.Find("aircraft_" + a.id);
             //if new aircraft
             if (airObject == null)
             {
-                Instantiate(aircraft);
+                airObject = Instantiate(aircraft);
+                airObject.name = "aircraft_" + a.id;
 
-            } else
+
+            }
+            else
             {
                 deleteList.Remove(airObject);
             }
@@ -35,20 +43,32 @@ public class AircraftController : MonoBehaviour {
 
         }
         //clear remaining objects from scene
-        foreach(GameObject go in deleteList)
+        foreach (GameObject go in deleteList)
         {
             Destroy(go);
         }
-	
-	}
+
+    }
     void Apply(Aircraft craft, GameObject obj)
     {
         var x = obj.transform.position.x;
         var y = obj.transform.position.y;
         var lat = craft.latitude;
         var lng = craft.longitude;
-        MainController.mapController.LatLong2XY(lat, lng, out x, out y);
-        obj.transform.Translate(x, y, craft.altitude);
+        var alt = craft.altitude;
+        float myX;
+        float myY;
+        float myAlt;
+        
+        MainController.mapController.LatLong2XY(lat, lng, alt, out x, out y, out alt);
+      
+        MainController.mapController.LatLong2XY(MainController.gpsController.GetLatitude(), MainController.gpsController.GetLongitude(), 0, out myX, out myY, out myAlt);
+
+        obj.transform.Translate(x-myX, craft.altitude, y - myY, Space.World);
+
+        var dist = Vector3.Distance(new Vector3(x, y, craft.altitude), new Vector3(myX, myY, 0));
+        var scale = System.Math.Max(1.0f, dist  / 100.0f);
+        obj.transform.localScale = new Vector3(scale, scale, scale); 
 
     }
 

@@ -18,7 +18,7 @@ class AirtcraftImporter
 };
 class AircrafImporterEmulate : AirtcraftImporter
 {
-    AircrafImporterEmulate(float baseLong, float baseLat, int radiusKM=50, int amoutOfAircrafts = 10)
+    public AircrafImporterEmulate(float baseLong, float baseLat, int radiusKM=50, int amoutOfAircrafts = 10)
     {
         this.list = new List<Aircraft>();
         for(int i=0; i < amoutOfAircrafts; i++)
@@ -27,12 +27,12 @@ class AircrafImporterEmulate : AirtcraftImporter
 
         }
         
-        list.Add(generateAircraft(11, MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 0));
+        list.Add(generateAircraft(amoutOfAircrafts + 1, MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 0));
     }
     Aircraft generateAircraft(int id, float baseLong, float baseLat, int radiusKM)
     {
         Aircraft craft = new Aircraft(id, baseLong, baseLat, Random.Range(1000, 12000));
-        int radius = Random.Range(1000, radiusKM * 1000);//random radius in meters
+        int radius = Random.Range(0, radiusKM * 1000);//random radius in meters
         double angle = (double) Random.Range(0, (3.14f) * 2);
         //rough approximation http://gis.stackexchange.com/questions/2951/algorithm-for-offsetting-a-latitude-longitude-by-some-amount-of-meters
         var dn = radius * (float)System.Math.Sin(angle);
