@@ -64,10 +64,10 @@ public class AircraftController : MonoBehaviour {
       
         MainController.mapController.LatLong2XY(MainController.gpsController.GetLatitude(), MainController.gpsController.GetLongitude(), 0, out myX, out myY, out myAlt);
 
-        obj.transform.Translate(x-myX, craft.altitude, y - myY, Space.World);
+        obj.transform.Translate(x-myX, alt, y - myY, Space.World);
 
-        var dist = Vector3.Distance(new Vector3(x, y, craft.altitude), new Vector3(myX, myY, 0));
-        var scale = System.Math.Max(1.0f, dist  / 100.0f);
+        var dist = Vector3.Distance(obj.transform.position, new Vector3(myX, myY, 0));
+        var scale = System.Math.Max(1.0f, dist  / 10000.0f);
         obj.transform.localScale = new Vector3(scale, scale, scale); 
 
     }
