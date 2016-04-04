@@ -31,7 +31,7 @@ public class UI : MonoBehaviour {
     {
         float fix = 90.0f;
         
-        compassArrow.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -(MainController.camControl.getY() - fix));
+        compassArrow.transform.rotation = Quaternion.Euler(0.0f, 0.0f, (MainController.camControl.getY() + fix));
     }
 
     void showCams()
