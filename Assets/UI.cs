@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UI : MonoBehaviour {
@@ -7,6 +8,7 @@ public class UI : MonoBehaviour {
     public bool showGps = true;
     public Text accel;
     public Text gps;
+    public GameObject compassArrow;
 	// Use this for initialization
 	void Start () {
 
@@ -22,8 +24,16 @@ public class UI : MonoBehaviour {
         if (showCameras) showCams();
         if (showGyro) showGyroInfo();
         if (showGps) showLocation();
-
+        if (compassArrow != null) UpdateCompass();
     }
+
+    private void UpdateCompass()
+    {
+        float fix = 90.0f;
+        
+        compassArrow.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -(MainController.camControl.getY() - fix));
+    }
+
     void showCams()
     {
         accel.text += "Camera Count: " + WebCamTexture.devices.Length +"\n";
