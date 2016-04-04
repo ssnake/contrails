@@ -9,16 +9,16 @@ public abstract class CoordConverter
 }
 public class Mercator1 : CoordConverter
 {
-    float R = 6371000f;
+    float R = 6378137.0f;
     float mapWidth;
-    public Mercator1(int mapWidth)
+    public Mercator1(float mapWidth)
     {
         this.mapWidth = mapWidth;
     }
 
     public override float GetScale(float latitude)
     {
-        return R / mapWidth;
+        return (float) (2*Math.PI * R / mapWidth);
     }
 
     public override void LatLong2XY(float latitude, float longitude, out float x, out float y)
@@ -62,13 +62,15 @@ public class MapController {
     CoordConverter converter;
     public MapController()
     {
-        converter = new WebMercator1(256, 6);
+        //converter = new WebMercator1(256, 9);
+        converter = new Mercator1((float) (2*Math.PI*6378137));
 
     }
     public void LatLong2XY(float latitude, float longitude, float altitude,  out float x, out float y, out float alt)
     {
         converter.LatLong2XY(latitude, longitude, out x, out y);
         var scale = converter.GetScale(latitude);
+        Debug.Log("Scale: " + scale);
         alt = altitude * scale;
 
     }

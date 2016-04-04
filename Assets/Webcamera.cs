@@ -27,8 +27,7 @@ public class Webcamera : MonoBehaviour
                 break;
             }
         GetComponent<RawImage>().texture = camTexture;
-
-
+        var fov = GetFOV(3.54f);
     }
 
     // Update is called once per frame
@@ -42,5 +41,16 @@ public class Webcamera : MonoBehaviour
         }
 
 
+    }
+    public float GetFOV(float focalLengthmm)
+    {
+        //standard film size
+        int filmHeight = 24;
+        int filmWidth = 36;
+
+        //Formula to convert focalLength to field of view - In Unity they use Vertical FOV.
+        //So we use the filmHeight to calculate Vertical FOV.
+        double fovdub = Mathf.Rad2Deg * 2.0 * System.Math.Atan(filmHeight / (2.0 * focalLengthmm));
+        return  (float)fovdub;
     }
 }

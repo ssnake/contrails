@@ -14,7 +14,7 @@ public class GpsController
     {
         if (emulateGPS)
         {
-            return 50.907154f;
+            return 50.907703f;
         }
         else {
             return Input.location.lastData.latitude;
@@ -24,7 +24,7 @@ public class GpsController
     {
         if (emulateGPS)
         {
-            return 34.820437f;
+            return 34.821918f;
         }
         else {
             return Input.location.lastData.latitude;

@@ -67,8 +67,8 @@ public class AircraftController : MonoBehaviour {
         obj.transform.Translate(x-myX, alt, y - myY, Space.World);
 
         var dist = Vector3.Distance(obj.transform.position, new Vector3(myX, myY, 0));
-        var scale = System.Math.Max(1.0f, dist  / 10000.0f);
-        obj.transform.localScale = new Vector3(scale, scale, scale); 
+        //var scale = System.Math.Max(1.0f, dist  / 10000.0f);
+        //obj.transform.localScale = new Vector3(scale, scale, scale); 
 
     }
 
