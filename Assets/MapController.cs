@@ -4,7 +4,7 @@ using System;
 
 public abstract class CoordConverter
 {
-    public abstract void LatLong2XY(float latitude, float longitude, out float x, out float y);
+    public abstract void LatLong2XY(float latitude, float longitude,float alitutde, out float x, out float y, out float alt);
     public abstract float GetScale(float latitude=0.0f);
 }
 public class Mercator1 : CoordConverter
@@ -18,13 +18,16 @@ public class Mercator1 : CoordConverter
 
     public override float GetScale(float latitude)
     {
-        return (float) (2*Math.PI * R / mapWidth);
+        return (float) (2*Math.PI * R / mapWidth)
+            ;
     }
 
-    public override void LatLong2XY(float latitude, float longitude, out float x, out float y)
+    public override void LatLong2XY(float latitude, float longitude, float altitude, out float x, out float y, out float alt)
     {
         x = (float )(mapWidth * longitude / 2.0f/180.0f) ;
         y = (float) (mapWidth  / 2.0f / 180.0f * Math.Log(Math.Tan(45 + latitude / 2)));
+        alt = GetScale(latitude) * altitude;
+
     }
     
 }
@@ -51,11 +54,43 @@ public class WebMercator1 : CoordConverter
         return 1.0f / ((groundRes * screenDPI)/(GetMapWidth()*0.0254f));
     }
 
-    public override void LatLong2XY(float latitude, float longitude, out float x, out float y)
+    public override void LatLong2XY(float latitude, float longitude, float altitude, out float x, out float y, out float alt)
     {
         x = (float)(GetMapWidth() * (longitude + 180.0f) / 360.0f);
         float sinLat = (float)Math.Sin(latitude * Math.PI / 180);
         y = (float)((0.5 - Math.Log((1+sinLat)/ (1-sinLat))/(4*Math.PI))* GetMapWidth() );
+        alt = GetScale(latitude) * altitude;
+    }
+}
+
+public class SphereMap : CoordConverter
+{
+    CoordConverter latlong2xyz;
+    float radius;
+    public SphereMap(float radiusM)
+    {
+        this.radius = radiusM;
+        latlong2xyz = new Mercator1((float)(2 * Math.PI * 6378137));
+
+
+    }
+    public override float GetScale(float latitude = 0)
+    {
+        return latlong2xyz.GetScale(latitude);
+    }
+
+    public override void LatLong2XY(float latitude, float longitude, float altitude, out float x, out float y, out float alt)
+    {
+        latlong2xyz.LatLong2XY(latitude, longitude, altitude, out x, out y, out alt);
+        var alpha = Math.Atan(y / x);
+        var OA1 = y / Math.Sin(alpha);
+        var beta = Math.Atan(alt / OA1);
+        alt = (float) (radius * Math.Sin(beta));
+        var OB1 = radius * Math.Cos(beta);
+        x = (float)(OB1*Math.Cos(alpha));
+        y = (float)(OB1 * Math.Sin(alpha));
+
+
     }
 }
 public class MapController {
@@ -64,14 +99,13 @@ public class MapController {
     {
         //converter = new WebMercator1(256, 9);
         converter = new Mercator1((float) (2*Math.PI*6378137));
+        
 
     }
     public void LatLong2XY(float latitude, float longitude, float altitude,  out float x, out float y, out float alt)
     {
-        converter.LatLong2XY(latitude, longitude, out x, out y);
-        var scale = converter.GetScale(latitude);
-        Debug.Log("Scale: " + scale);
-        alt = altitude * scale;
+        converter.LatLong2XY(latitude, longitude, altitude,  out x, out y, out alt);
+        
 
     }
 }
