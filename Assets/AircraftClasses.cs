@@ -29,12 +29,14 @@ class AircrafImporterEmulate : AirtcraftImporter
         
         list.Add(generateAircraft(amoutOfAircrafts + 1, MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 0));
         //house
-        
         list.Add(new Aircraft(amoutOfAircrafts + 2, 34.822387f, 50.908291f, 20.0f));
         //bus stop 50.909039, 34.822518
         list.Add(new Aircraft(amoutOfAircrafts + 3, 34.822518f, 50.909039f, 3.0f));
         //shop 50.908872, 34.821022
         list.Add(new Aircraft(amoutOfAircrafts + 4, 34.821022f, 50.908872f, 3.0f));
+        //tec 50.948070, 34.780939
+        list.Add(new Aircraft(amoutOfAircrafts + 5, 34.780939f, 50.948070f, 50.0f));
+
 
     }
     Aircraft generateAircraft(int id, float baseLong, float baseLat, int radiusKM)
