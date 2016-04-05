@@ -12,7 +12,7 @@ public class MainController : MonoBehaviour {
     // Use this for initialization
     void Awake () {
         MainController.mapController = new MapController();
-        MainController.gpsController = new GpsController(true);
+        MainController.gpsController = new GpsController();
 
 
     }

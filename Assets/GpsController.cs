@@ -4,10 +4,10 @@ using System.Collections;
 public class GpsController
 {
     bool emulateGPS;
-    public GpsController(bool emulate)
+    public GpsController()
     {
-        emulateGPS = emulate;
-        if (!emulate) Input.location.Start();
+        emulateGPS = Application.isEditor;
+        if (!emulateGPS) Input.location.Start();
     }
     //my place lat 50.907154, long 34.820437
     public float GetLatitude()
