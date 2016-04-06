@@ -6,7 +6,7 @@ public class GpsController
     bool emulateGPS;
     public GpsController()
     {
-        emulateGPS = true;// Application.isEditor;
+        emulateGPS = Application.isEditor;
        
         if (!emulateGPS) Input.location.Start();
     }
@@ -17,7 +17,7 @@ public class GpsController
         if (emulateGPS)
         {
             //return 50.907703f;
-            return 50.937207f;
+            return 50.93724f;
         }
         else {
             return Input.location.lastData.latitude;
@@ -28,10 +28,10 @@ public class GpsController
         if (emulateGPS)
         {
             //return 34.821918f;
-            return 34.768769f;
+            return 34.76892f;
         }
         else {
-            return Input.location.lastData.latitude;
+            return Input.location.lastData.longitude;
         }
     }
     public string GetStatus()
