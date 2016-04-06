@@ -36,6 +36,14 @@ class AircrafImporterEmulate : AirtcraftImporter
         list.Add(new Aircraft(amoutOfAircrafts + 4, 34.821022f, 50.908872f, 3.0f));
         //tec 50.948070, 34.780939
         list.Add(new Aircraft(amoutOfAircrafts + 5, 34.780939f, 50.948070f, 50.0f));
+        //house 50.915215, 34.828533
+        list.Add(new Aircraft(amoutOfAircrafts + 6, 34.828533f, 50.915215f, 50.0f));
+        //house 50.915371, 34.829048
+        list.Add(new Aircraft(amoutOfAircrafts + 7, 34.829048f, 50.915371f, 50.0f));
+        //house 50.910667, 34.822622
+        list.Add(new Aircraft(amoutOfAircrafts + 8, 34.822622f, 50.910667f, 50.0f));
+
+
 
 
     }

@@ -11,8 +11,9 @@ public class AircraftController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        importer = new AircrafImporterEmulate(MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 50, 10 );
-        Import();
+        importer = new AircrafImporterEmulate(MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 50, 0 );
+
+        InvokeRepeating("Import", 0.0f, 1.0f);
 	}
 	
 	// Update is called once per frame
@@ -63,11 +64,10 @@ public class AircraftController : MonoBehaviour {
         MainController.mapController.LatLong2XY(lat, lng, alt, out x, out y, out alt);
       
         MainController.mapController.LatLong2XY(MainController.gpsController.GetLatitude(), MainController.gpsController.GetLongitude(), 0, out myX, out myY, out myAlt);
-
-        obj.transform.Translate(x-myX, alt, y - myY, Space.World);
+        obj.transform.position = new Vector3(x-myX, alt, y - myY);
 
         var dist = Vector3.Distance(obj.transform.position, new Vector3(myX, myY, 0));
-        var scale = System.Math.Max(1.0f, dist  / 100000.0f);
+        var scale = System.Math.Max(1.0f, dist/1000000.0f );
         obj.transform.localScale = new Vector3(scale, scale, scale); 
 
     }
