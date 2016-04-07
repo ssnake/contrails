@@ -63,32 +63,34 @@ public class WebMercator1 : CoordConverter
     }
 }
 
-public class SphereMap : CoordConverter
+public class SphereMap
 {
-    CoordConverter latlong2xyz;
+    
     float radius;
     public SphereMap(float radiusM)
     {
         this.radius = radiusM;
-        latlong2xyz = new Mercator1((float)(2 * Math.PI * 6378137));
-
+    
 
     }
-    public override float GetScale(float latitude = 0)
-    {
-        return latlong2xyz.GetScale(latitude);
-    }
 
-    public override void LatLong2XY(float latitude, float longitude, float altitude, out float x, out float y, out float alt)
+    public void Adjust(ref float x, ref float y, ref float alt)
     {
-        latlong2xyz.LatLong2XY(latitude, longitude, altitude, out x, out y, out alt);
-        var alpha = Math.Atan(y / x);
-        var OA1 = y / Math.Sin(alpha);
-        var beta = Math.Atan(alt / OA1);
-        alt = (float) (radius * Math.Sin(beta));
-        var OB1 = radius * Math.Cos(beta);
-        x = (float)(OB1*Math.Cos(alpha));
-        y = (float)(OB1 * Math.Sin(alpha));
+        if (Vector3.Distance(new Vector3(x, alt, y), Vector3.zero) < radius)
+            return;
+        if ((x != 0.0) && (y != 0.0))
+        { 
+            var alpha = Math.Atan(y / x);
+            var OA1 = y / Math.Sin(alpha);
+            var beta = Math.Atan(alt / OA1);
+            alt = (float)(radius * Math.Sin(beta));
+            var OB1 = radius * Math.Cos(beta);
+            x = (float)(OB1 * Math.Cos(alpha));
+            y = (float)(OB1 * Math.Sin(alpha));
+        } else
+        {
+            alt = radius;
+        }
 
 
     }
