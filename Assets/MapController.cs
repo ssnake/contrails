@@ -25,7 +25,7 @@ public class Mercator1 : CoordConverter
     public override void LatLong2XY(float latitude, float longitude, float altitude, out float x, out float y, out float alt)
     {
         x = (float )(mapWidth * longitude / 2.0f/180.0f) ;
-        y = (float) (mapWidth  / 2.0f / 180.0f * Math.Log(Math.Tan(45 + latitude / 2)));
+        y = (float) (mapWidth  / 2.0f / 180.0f * Math.Log(Math.Tan(Math.PI/4.0 + latitude / 2)));
         alt = GetScale(latitude) * altitude;
 
     }

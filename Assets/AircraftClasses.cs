@@ -27,7 +27,7 @@ class AircrafImporterEmulate : AirtcraftImporter
 
         }
         
-        list.Add(generateAircraft(amoutOfAircrafts + 1, MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 0));
+        list.Add(new Aircraft(amoutOfAircrafts + 1, MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), MainController.gpsController.GetAlt() + 100));
         //house
         list.Add(new Aircraft(amoutOfAircrafts + 2, 34.822387f, 50.908291f, 20.0f));
         //bus stop 50.909039, 34.822518
