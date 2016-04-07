@@ -41,4 +41,12 @@ public class GpsController
         else
             return Input.location.status.ToString();
     }
+    public float GetAlt()
+    {
+        if (emulateGPS)
+            return 0.0f;
+        else
+            return Input.location.lastData.altitude;
+           
+    }
 }

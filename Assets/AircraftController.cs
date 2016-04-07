@@ -14,6 +14,7 @@ public class AircraftController : MonoBehaviour {
         importer = new AircrafImporterEmulate(MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 50, 0 );
         sphere = new SphereMap(1000.0f);
         InvokeRepeating("Import", 0.0f, 1.0f);
+        //Import();
 	}
 	
 	// Update is called once per frame
@@ -62,17 +63,19 @@ public class AircraftController : MonoBehaviour {
         float myAlt;
         
         MainController.mapController.LatLong2XY(lat, lng, alt, out x, out y, out alt);
-      
-        MainController.mapController.LatLong2XY(MainController.gpsController.GetLatitude(), MainController.gpsController.GetLongitude(), 0, out myX, out myY, out myAlt);
+        MainController.mapController.LatLong2XY(MainController.gpsController.GetLatitude(), MainController.gpsController.GetLongitude(), MainController.gpsController.GetAlt(), out myX, out myY, out myAlt);
+    
         x = x - myX;
         y = y - myY;
+        alt = alt - myAlt;
+        
         sphere.Adjust(ref x, ref y, ref alt);
 
         obj.transform.position = new Vector3(x, alt, y);
         
 
-        var dist = Vector3.Distance(obj.transform.position, new Vector3(myX, myY, 0));
-        var scale = System.Math.Max(1.0f, dist/1000000.0f );
+        var dist = Vector3.Distance(obj.transform.position, new Vector3(0, 0, 0));
+        var scale = System.Math.Max(1.0f, dist/100.0f );
         obj.transform.localScale = new Vector3(scale, scale, scale); 
 
     }
