@@ -16,7 +16,8 @@ public class GpsController
     {
         if (emulateGPS)
         {
-            return 50.90756f;
+
+            return 50.907703f;
             //return 50.93724f;
         }
         else {
@@ -27,7 +28,7 @@ public class GpsController
     {
         if (emulateGPS)
         {
-            return 34.82222f;
+            return 34.821918f;
             //return 34.76892f;
         }
         else {
@@ -44,7 +45,7 @@ public class GpsController
     public float GetAlt()
     {
         if (emulateGPS)
-            return 0.0f;
+            return 134.0f;
         else
             return Input.location.lastData.altitude;
            

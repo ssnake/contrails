@@ -15,19 +15,25 @@ public class Webcamera : MonoBehaviour
 
     void Start()
     {
+        if (!Application.isEditor)
+        {
+            devices = WebCamTexture.devices;
+            camTexture = null;
+            for (var i = 0; i < devices.Length; i++)
+                if (!devices[i].isFrontFacing || Application.isEditor)
+                {
+                    cam = devices[i];
+                    camTexture = new WebCamTexture(cam.name);
 
-        devices = WebCamTexture.devices;
-        camTexture = null;
-        for (var i = 0; i < devices.Length; i++)
-            if (!devices[i].isFrontFacing)
-            {
-                cam = devices[i];
-                camTexture = new WebCamTexture(cam.name);
-                camTexture.Play();
-                break;
-            }
-        GetComponent<RawImage>().texture = camTexture;
-        var fov = GetFOV(3.54f);
+                    camTexture.Play();
+                    break;
+                }
+            RawImage ri = GetComponent<RawImage>();
+            var arf = ri.GetComponent<AspectRatioFitter>();
+            arf.aspectRatio = 1.0f * camTexture.width / camTexture.height;
+            ri.texture = camTexture;
+        }
+        //var fov = GetFOV(3.54f);
     }
 
     // Update is called once per frame

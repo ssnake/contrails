@@ -62,14 +62,19 @@ public class AircraftController : MonoBehaviour {
         float myY;
         float myAlt;
         
+        lat = lat - MainController.gpsController.GetLatitude();
+        lng = lng - MainController.gpsController.GetLongitude();
+        alt = alt - MainController.gpsController.GetAlt();
+        
         MainController.mapController.LatLong2XY(lat, lng, alt, out x, out y, out alt);
+        /*
         MainController.mapController.LatLong2XY(MainController.gpsController.GetLatitude(), MainController.gpsController.GetLongitude(), MainController.gpsController.GetAlt(), out myX, out myY, out myAlt);
     
         x = x - myX;
         y = y - myY;
         alt = alt - myAlt;
-        
-        sphere.Adjust(ref x, ref y, ref alt);
+        */
+        //sphere.Adjust(ref x, ref y, ref alt);
 
         obj.transform.position = new Vector3(x, alt, y);
         
