@@ -8,6 +8,7 @@ using System.Collections.Generic;
 public class AircraftController : MonoBehaviour {
     AirtcraftImporter importer;
     public GameObject aircraft;
+    public GameObject route;
     SphereMap sphere;
     // Use this for initialization
     void Start () {
@@ -24,7 +25,7 @@ public class AircraftController : MonoBehaviour {
     void Import()
     {
         var deleteList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
-
+        var deleteList2 = new List<GameObject>(GameObject.FindGameObjectsWithTag("route"));
         foreach (Aircraft a in importer.Import())
         {
             var airObject = GameObject.Find("aircraft_" + a.id);
@@ -40,12 +41,27 @@ public class AircraftController : MonoBehaviour {
             {
                 deleteList.Remove(airObject);
             }
-            Apply(a, airObject);
 
+            var routeObject = GameObject.Find("route_" + a.id);
+            if (routeObject == null)
+            {
+                routeObject = Instantiate(route);
+                routeObject.name = "route_" + a.id;
+            } else
+            {
+                deleteList2.Remove(routeObject);
+            }
+
+            Apply(a, airObject);
+            ApplyRoute(a, routeObject);
 
         }
         //clear remaining objects from scene
         foreach (GameObject go in deleteList)
+        {
+            Destroy(go);
+        }
+        foreach (GameObject go in deleteList2)
         {
             Destroy(go);
         }
@@ -84,5 +100,22 @@ public class AircraftController : MonoBehaviour {
         obj.transform.localScale = new Vector3(scale, scale, scale); 
 
     }
+    void ApplyRoute(Aircraft craft, GameObject obj)
+    {
+        var lr = obj.GetComponent<LineRenderer>();
+        List<Vector3> list = new List<Vector3>();
+        for(var i = 0; i < craft.route.Count; i ++)
+        {
+            var lat = craft.route[i].latitude - MainController.gpsController.GetLatitude();
+            var lng = craft.route[i].longitude - MainController.gpsController.GetLongitude();
+            var alt = craft.route[i].altitude - MainController.gpsController.GetAlt();
+            float x, y;
 
+            MainController.mapController.LatLong2XY(lat, lng, alt, out x, out y, out alt);
+            list.Add(new Vector3(x, alt, y));
+        }
+        lr.SetVertexCount(list.Count);
+        lr.SetPositions(list.ToArray());
+
+    }
 }

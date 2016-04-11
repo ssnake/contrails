@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Assets\AircraftClasses.cs" />
     <Compile Include="Assets\AircraftController.cs" />
+    <Compile Include="Assets\AircraftImporter.cs" />
     <Compile Include="Assets\CameraControl.cs" />
     <Compile Include="Assets\GpsController.cs" />
     <Compile Include="Assets\MainController.cs" />
