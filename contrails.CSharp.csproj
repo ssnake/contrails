@@ -78,6 +78,7 @@
     <Compile Include="Assets\MapController.cs" />
     <Compile Include="Assets\SimpleCloudSystem by RM\SceneComponents\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
     <Compile Include="Assets\UI.cs" />
+    <Compile Include="Assets\UIHighlighter.cs" />
     <Compile Include="Assets\Webcamera.cs" />
   </ItemGroup>
   <ItemGroup>

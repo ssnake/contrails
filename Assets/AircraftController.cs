@@ -10,6 +10,8 @@ public class AircraftController : MonoBehaviour {
     public GameObject aircraft;
     public GameObject route;
     SphereMap sphere;
+   
+
     // Use this for initialization
     void Start () {
         importer = new AircrafImporterEmulate(MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 50, 10 );
