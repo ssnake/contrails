@@ -12,8 +12,8 @@ public class AircraftController : MonoBehaviour {
     SphereMap sphere;
     // Use this for initialization
     void Start () {
-        importer = new AircrafImporterEmulate(MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 50, 0 );
-        sphere = new SphereMap(1000.0f);
+        importer = new AircrafImporterEmulate(MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 50, 10 );
+        sphere = new SphereMap(100.0f);
         InvokeRepeating("Import", 0.0f, 1.0f);
         //Import();
 	}

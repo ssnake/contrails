@@ -81,6 +81,8 @@ public class SphereMap
         if ((x != 0.0) && (y != 0.0))
         { 
             var alpha = Math.Atan(y / x);
+            //http://stackoverflow.com/questions/1311049/how-to-map-atan2-to-degrees-0-360
+            alpha = (alpha > 0 ? alpha : (2 * System.Math.PI + alpha)) * 360 / (2 * System.Math.PI);
             var OA1 = y / Math.Sin(alpha);
             var beta = Math.Atan(alt / OA1);
             alt = (float)(radius * Math.Sin(beta));

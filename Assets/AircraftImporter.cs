@@ -37,11 +37,12 @@ class AircrafImporterEmulate : AirtcraftImporter
         list.Clear();
         for (int i = 0; i < amount; i++)
         {
-            list.Add(GenerateRoute(GenerateAircraft(i, baseLong, baseLat, radiusKM), 1000, 30000));
+            list.Add(GenerateRoute(GenerateAircraft(i, baseLong, baseLat, radiusKM), 100, 30000));
 
         }
-
+        
         list.Add(GenerateRoute(new Aircraft(amount + 1, MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), MainController.gpsController.GetAlt() + 100), 100, 1000));
+        /*
         //house 50.908213, 34.822319
         list.Add(new Aircraft(amount + 2, 34.822319f, 50.908213f, MainController.gpsController.GetAlt() + 50.0f));
         //bus stop 50.909039, 34.822518
@@ -65,6 +66,17 @@ class AircrafImporterEmulate : AirtcraftImporter
         list.Add(new Aircraft(amount + 11, 34.800637f, 50.909251f, MainController.gpsController.GetAlt() + 50.0f));
         //bankovsk 50.893771, 34.802704
         list.Add(new Aircraft(amount + 11, 34.802704f, 50.893771f, MainController.gpsController.GetAlt() + 50.0f));
+        */
+
+
+        //50.912719, 34.825652
+        //list.Add(new Aircraft(amount + 12, 34.825652f, 50.912719f, MainController.gpsController.GetAlt() + 50.0f));
+        //50.911427, 34.817165
+        list.Add(new Aircraft(amount + 13, 34.817165f, 50.911427f, MainController.gpsController.GetAlt() + 50.0f));
+        //50.904382, 34.815856
+        list.Add(new Aircraft(amount + 14, 34.815856f, 50.904382f, MainController.gpsController.GetAlt() + 50.0f));
+        //50.904753, 34.830686
+        //list.Add(new Aircraft(amount + 15, 34.830686f, 50.904753f, MainController.gpsController.GetAlt() + 50.0f));
 
     }
     Aircraft GenerateAircraft(int id, float baseLong, float baseLat, int radiusKM)
