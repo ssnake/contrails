@@ -16,7 +16,7 @@ public class AircraftController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         MainController.aircraftController = this;
-        importer = new AircrafImporterEmulate(MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 50, 0 );
+        importer = new AircrafImporterEmulate(MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 10, 10 );
         aircraftList = new List<AircraftImported>();
         InvokeRepeating("Import", 0.0f, 1.0f);
         //Import();

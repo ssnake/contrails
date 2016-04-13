@@ -49,7 +49,7 @@ class AircrafImporterEmulate : AirtcraftImporter
         }
         
         list.Add(GenerateRoute(new Aircraft(amount + 1, MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), MainController.gpsController.GetAlt() + 100), 100, 1000));
-        
+        /*
         //house 50.908213, 34.822319
         list.Add(new Aircraft(amount + 2, 34.822319f, 50.908213f, MainController.gpsController.GetAlt() + 50.0f));
         //bus stop 50.909039, 34.822518
@@ -75,7 +75,7 @@ class AircrafImporterEmulate : AirtcraftImporter
         list.Add(new Aircraft(amount + 11, 34.802704f, 50.893771f, MainController.gpsController.GetAlt() + 50.0f));
         
 
-
+    */
         //50.912719, 34.825652
         //list.Add(new Aircraft(amount + 12, 34.825652f, 50.912719f, MainController.gpsController.GetAlt() + 50.0f));
         //50.911427, 34.817165

@@ -38,7 +38,7 @@ public class UIHighlighter : MonoBehaviour {
             select.transform.localPosition = new Vector3(v.x, v.y, 0.0f);
             var scale = 1.0f / Vector3.Distance(Vector3.zero, obj.position) * 50;
 
-            select.transform.localScale = Vector3.one * scale;
+            select.transform.localScale = Vector3.one * System.Math.Max(0.2f,scale);
             Debug.Log("v: " + v.ToString());
             Debug.Log("pos: " + select.transform.localPosition.ToString());
 
