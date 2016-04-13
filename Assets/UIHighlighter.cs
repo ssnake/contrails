@@ -19,29 +19,33 @@ public class UIHighlighter : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        var list = GameObject.FindGameObjectsWithTag("Player");
-        
+        var list = MainController.aircraftController.AircraftList;
+        var deleteList = new List<GameObject>(GameObject.FindGameObjectsWithTag("aircraft"));
+
         foreach(var obj in list)
         {
-        
-                
-            var v = WorldToCanvasPosition(canvas.GetComponent<RectTransform>(), camera, obj.transform.position);
-            var sh = obj.GetComponent<SelectHolder>();
-            GameObject select;
-            if (sh == null)
+            var v = WorldToCanvasPosition(canvas.GetComponent<RectTransform>(), camera, obj.position);
+            var select = GameObject.Find("aircraft_" + obj.origin.id);
+
+            if (select == null)
             {
-                sh = obj.AddComponent<SelectHolder>();
                 select = Instantiate(selectUI);
+                select.name = "aircraft_" + obj.origin.id;
                 select.transform.SetParent(canvas.transform);
-                sh.select = select;
             }
-            else
-                select = sh.select;
+            else deleteList.Remove(select);
 
             select.transform.localPosition = new Vector3(v.x, v.y, 0.0f);
+            var scale = 1.0f / Vector3.Distance(Vector3.zero, obj.position) * 50;
+
+            select.transform.localScale = Vector3.one * scale;
             Debug.Log("v: " + v.ToString());
             Debug.Log("pos: " + select.transform.localPosition.ToString());
 
+        }
+        foreach(var o in deleteList)
+        {
+            Destroy(o);
         }
 
     }

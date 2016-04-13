@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 
 
-internal class Aircraft
+public class Aircraft
 {
     public int id;
     public float longitude;
@@ -22,7 +22,7 @@ internal class Aircraft
     }
    
 }
-internal class Waypoint
+public class Waypoint
 {
     public float longitude;
     public float latitude;
@@ -48,5 +48,17 @@ internal class Waypoint
         this.longitude = vector.x;
         this.latitude = vector.z;
         this.altitude = vector.y;
+    }
+}
+
+public class AircraftImported
+{
+    public Vector3 position;
+    public Aircraft origin;
+    public AircraftImported(Aircraft craft)
+    {
+        origin = craft;
+        position = new Vector3();
+        
     }
 }

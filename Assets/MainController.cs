@@ -7,7 +7,7 @@ public class MainController : MonoBehaviour {
     public static CameraControl camControl;
     public static MapController mapController;
     public static GpsController gpsController;
-
+    public static AircraftController aircraftController;
 
     // Use this for initialization
     void Awake () {

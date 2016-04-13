@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 
+
 public abstract class CoordConverter
 {
     public abstract void LatLong2XY(float latitude, float longitude,float alitutde, out float x, out float y, out float alt);
@@ -112,4 +113,5 @@ public class MapController {
         
 
     }
+    
 }
