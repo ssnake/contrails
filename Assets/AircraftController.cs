@@ -14,7 +14,7 @@ public class AircraftController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        importer = new AircrafImporterEmulate(MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 50, 10 );
+        importer = new AircrafImporterEmulate(MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 50, 0 );
         sphere = new SphereMap(100.0f);
         InvokeRepeating("Import", 0.0f, 1.0f);
         //Import();
@@ -97,9 +97,9 @@ public class AircraftController : MonoBehaviour {
         obj.transform.position = new Vector3(x, alt, y);
         
 
-        var dist = Vector3.Distance(obj.transform.position, new Vector3(0, 0, 0));
-        var scale = System.Math.Max(1.0f, dist/100.0f );
-        obj.transform.localScale = new Vector3(scale, scale, scale); 
+        //var dist = Vector3.Distance(obj.transform.position, new Vector3(0, 0, 0));
+        //var scale = System.Math.Max(1.0f, dist/100.0f );
+        //obj.transform.localScale = new Vector3(scale, scale, scale); 
 
     }
     void ApplyRoute(Aircraft craft, GameObject obj)
