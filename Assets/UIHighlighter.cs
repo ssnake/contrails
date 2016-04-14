@@ -9,6 +9,7 @@ class SelectHolder : MonoBehaviour
 public class UIHighlighter : MonoBehaviour {
     public Canvas canvas;
     public GameObject selectUI;
+    public GameObject selectUIBuilding;
     public Camera camera;
     
     // Use this for initialization
@@ -18,38 +19,45 @@ public class UIHighlighter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         var list = MainController.aircraftController.AircraftList;
-        var deleteList = new List<GameObject>(GameObject.FindGameObjectsWithTag("aircraft"));
+        var listBuilding = MainController.aircraftController.BuildingList;
+        List2UI(list, "aircraft_", "aircraft", selectUI);
+        List2UI(listBuilding, "building_", "building", selectUIBuilding);
 
-        foreach(var obj in list)
+
+    }
+    void List2UI(List<AircraftImported> list, string namePrefix, string tagName, GameObject selectObject)
+    {
+        
+        var deleteList = new List<GameObject>(GameObject.FindGameObjectsWithTag(tagName));
+        if (list != null)
         {
-            var v = WorldToCanvasPosition(canvas.GetComponent<RectTransform>(), camera, obj.position);
-            var select = GameObject.Find("aircraft_" + obj.origin.id);
-
-            if (select == null)
+            foreach (var obj in list)
             {
-                select = Instantiate(selectUI);
-                select.name = "aircraft_" + obj.origin.id;
-                select.transform.SetParent(canvas.transform);
+                var v = WorldToCanvasPosition(canvas.GetComponent<RectTransform>(), camera, obj.position);
+                var select = GameObject.Find(namePrefix + obj.origin.id);
+
+                if (select == null)
+                {
+                    select = Instantiate(selectObject);
+                    select.name = namePrefix + obj.origin.id;
+                    select.transform.SetParent(canvas.transform);
+                }
+                else deleteList.Remove(select);
+
+                select.transform.localPosition = new Vector3(v.x, v.y, 0.0f);
+                var scale = 1.0f / Vector3.Distance(Vector3.zero, obj.position) * 50;
+
+                select.transform.localScale = Vector3.one * System.Math.Max(0.2f, scale);
+
             }
-            else deleteList.Remove(select);
-
-            select.transform.localPosition = new Vector3(v.x, v.y, 0.0f);
-            var scale = 1.0f / Vector3.Distance(Vector3.zero, obj.position) * 50;
-
-            select.transform.localScale = Vector3.one * System.Math.Max(0.2f,scale);
-            Debug.Log("v: " + v.ToString());
-            Debug.Log("pos: " + select.transform.localPosition.ToString());
-
         }
-        foreach(var o in deleteList)
+        foreach (var o in deleteList)
         {
             Destroy(o);
         }
 
     }
-    
     private Vector2 WorldToCanvasPosition(RectTransform canvas, Camera camera, Vector3 position)
     {
         //Vector position (percentage from 0 to 1) considering camera size.

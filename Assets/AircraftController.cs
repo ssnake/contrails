@@ -7,17 +7,24 @@ using System.Collections.Generic;
 
 public class AircraftController : MonoBehaviour {
     AirtcraftImporter importer;
+    BuildingImporter buildingImporter;
+
     public GameObject aircraft;
     public GameObject route;
     List<AircraftImported> aircraftList;
-    
-   
+    List<AircraftImported> buildingList;
+
+
+
 
     // Use this for initialization
     void Start () {
         MainController.aircraftController = this;
         importer = new AircrafImporterEmulate(MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), 10, 10 );
+        buildingImporter = new BuildingImporter();
         aircraftList = new List<AircraftImported>();
+        buildingList = new List<AircraftImported>();
+
         InvokeRepeating("Import", 0.0f, 1.0f);
         //Import();
 	}
@@ -33,12 +40,20 @@ public class AircraftController : MonoBehaviour {
             return aircraftList;
         }
     }
+    public List<AircraftImported> BuildingList
+    {
+        get
+        {
+            return buildingList;
+        }
+    }
 
     void Import()
     {
 
         aircraftList.Clear();
-        
+        buildingList.Clear();
+
 
         var deleteList2 = new List<GameObject>(GameObject.FindGameObjectsWithTag("route"));
         foreach (Aircraft a in importer.Import())
@@ -63,6 +78,13 @@ public class AircraftController : MonoBehaviour {
             ApplyRoute(a, routeObject);
 
         }
+        foreach(Aircraft a in buildingImporter.Import())
+        {
+            var imported = new AircraftImported(a);
+            Apply2(a, imported);
+            buildingList.Add(imported);
+        }
+
         //clear remaining objects from scene
        
         foreach (GameObject go in deleteList2)
