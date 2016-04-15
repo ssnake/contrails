@@ -37,11 +37,17 @@ public class GpsController
     }
     public string GetStatus()
     {
+        string started = "started";
+        if (!Started()) started = "searching for gps";
+        if (!Input.location.isEnabledByUser && !Application.isEditor) started = "not enabled by user";
         if (emulateGPS)
-            return "Emulated";
+            return "Emulated ("+ started+")";
         else
-            return Input.location.status.ToString();
+        {
+            return Input.location.status.ToString() + " (" + started + ")";
+        }
     }
+
     public float GetAlt()
     {
         if (emulateGPS)
@@ -49,5 +55,20 @@ public class GpsController
         else
             return Input.location.lastData.altitude;
            
+    }
+
+    public System.DateTime GetGPSDateTime()
+    {
+        var ts = System.TimeSpan.FromSeconds(Input.location.lastData.timestamp);
+        return (new System.DateTime(1970, 1, 1, 0, 0, 0, 0) + ts).ToLocalTime();
+    }
+
+    public bool Started()
+    {
+        var diff = System.DateTime.Now - GetGPSDateTime();
+        if (emulateGPS)
+            return true;
+        else
+            return (diff.TotalMinutes < 5);
     }
 }

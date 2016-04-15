@@ -75,19 +75,19 @@ class AircrafImporterEmulate : AirtcraftImporter
     float baseLong;
     int radiusKM;
 
-    public AircrafImporterEmulate(float baseLong, float baseLat, int radiusKM = 50, int amoutOfAircrafts = 10)
+    public AircrafImporterEmulate(int radiusKM = 50, int amoutOfAircrafts = 10)
     {
         
         amount = amoutOfAircrafts;
-        this.baseLat = baseLat;
-        this.baseLong = baseLong;
         this.radiusKM = radiusKM;
-        Populate();
+       
 
 
     }
     void Populate()
     {
+        baseLong = MainController.gpsController.GetLongitude();
+        baseLat = MainController.gpsController.GetLatitude();
         list.Clear();
         for (int i = 0; i < amount; i++)
         {
@@ -147,7 +147,7 @@ class AircrafImporterEmulate : AirtcraftImporter
     }
     public override IEnumerable Import()
     {
-        //Populate();
+        if (MainController.gpsController.Started() && list.Count == 0) Populate();
         return base.Import();
     }
 };

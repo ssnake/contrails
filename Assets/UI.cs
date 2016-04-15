@@ -53,5 +53,6 @@ public class UI : MonoBehaviour {
         gps.text += "Lat: " + MainController.gpsController.GetLatitude() + "\n";
         gps.text += "Long: " + MainController.gpsController.GetLongitude() + "\n";
         gps.text += "Alt: " + MainController.gpsController.GetAlt() + "\n";
+        gps.text += "LastUpdate: " + MainController.gpsController.GetGPSDateTime() + "\n";
     }
 }
