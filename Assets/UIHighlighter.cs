@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-class SelectHolder : MonoBehaviour
+class DataHolder : MonoBehaviour
 {
-    public GameObject select;
+    public AircraftImported aircraftImported;
 }
 public class UIHighlighter : MonoBehaviour {
     public Canvas canvas;
@@ -42,9 +42,11 @@ public class UIHighlighter : MonoBehaviour {
                     select = Instantiate(selectObject);
                     select.name = namePrefix + obj.origin.id;
                     select.transform.SetParent(canvas.transform);
+                    select.AddComponent<DataHolder>();
                 }
                 else deleteList.Remove(select);
-
+                var holder = select.GetComponent<DataHolder>();
+                holder.aircraftImported = obj;
                 select.transform.localPosition = new Vector3(v.x, v.y, 0.0f);
                 var scale = 1.0f / Vector3.Distance(Vector3.zero, obj.position) * 50;
 
@@ -58,11 +60,12 @@ public class UIHighlighter : MonoBehaviour {
         }
 
     }
-    private Vector2 WorldToCanvasPosition(RectTransform canvas, Camera camera, Vector3 position)
+    static public Vector2 WorldToCanvasPosition(RectTransform canvas, Camera camera, Vector3 position)
     {
         //Vector position (percentage from 0 to 1) considering camera size.
         //For example (0,0) is lower left, middle is (0.5,0.5)
         Vector2 temp = camera.WorldToViewportPoint(position);
+
 
         //Calculate position considering our percentage, using our canvas size
         //So if canvas size is (1100,500), and percentage is (0.5,0.5), current value will be (550,250)

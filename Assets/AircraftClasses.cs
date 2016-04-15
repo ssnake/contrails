@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
-
-
+using System.Text;
 
 public class Aircraft
 {
@@ -19,6 +17,16 @@ public class Aircraft
         this.latitude = latitude;
         this.altitude = altitude;
         this.route = new List<Waypoint>();
+    }
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+        sb.Append("id: " + id);
+        sb.Append("longitude: " + longitude);
+        sb.Append("latitude: " + latitude);
+        sb.Append("altitude: " + altitude);
+
+        return sb.ToString();
     }
    
 }
@@ -60,5 +68,11 @@ public class AircraftImported
         origin = craft;
         position = new Vector3();
         
+    }
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+        sb.Append(origin.ToString());
+        return sb.ToString();
     }
 }

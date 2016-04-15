@@ -73,6 +73,7 @@
     <Compile Include="Assets\AircraftController.cs" />
     <Compile Include="Assets\AircraftImporter.cs" />
     <Compile Include="Assets\CameraControl.cs" />
+    <Compile Include="Assets\CrossHairSelector.cs" />
     <Compile Include="Assets\GpsController.cs" />
     <Compile Include="Assets\MainController.cs" />
     <Compile Include="Assets\MapController.cs" />
