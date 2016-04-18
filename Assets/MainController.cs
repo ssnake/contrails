@@ -8,11 +8,13 @@ public class MainController : MonoBehaviour {
     public static MapController mapController;
     public static GpsController gpsController;
     public static AircraftController aircraftController;
+    public static ContrailsController contrailsController;
 
     // Use this for initialization
     void Awake () {
         MainController.mapController = new MapController();
         MainController.gpsController = new GpsController();
+        MainController.contrailsController = new ContrailsController();
 
 
     }

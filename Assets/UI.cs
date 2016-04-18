@@ -8,6 +8,7 @@ public class UI : MonoBehaviour {
     public bool showGps = true;
     public Text accel;
     public Text gps;
+    public Text contrails;
     public GameObject compassArrow;
 	// Use this for initialization
 	void Start () {
@@ -21,9 +22,12 @@ public class UI : MonoBehaviour {
 
         accel.text = "";
         gps.text = "";
+        contrails.text = "";
+
         if (showCameras) showCams();
         if (showGyro) showGyroInfo();
         if (showGps) showLocation();
+        showContrailsCoord();
         if (compassArrow != null) UpdateCompass();
     }
 
@@ -39,6 +43,21 @@ public class UI : MonoBehaviour {
         accel.text += "Camera Count: " + WebCamTexture.devices.Length +"\n";
 
     }
+
+    void showContrailsCoord()
+    {
+        if (contrails != null)
+        {
+            float minDist, maxDist, lat, lng;
+            MainController.contrailsController.GetContrailsCoord(out minDist, out maxDist, out lat, out lng);
+            contrails.text += "Contrails: \n";
+            contrails.text += "Apx Long: " + lng+ "\n";
+            contrails.text += "Apx Lat: " + lat + "\n";
+            contrails.text += "Min Dist: " + minDist + "\n";
+            contrails.text += "Max Dist: " + maxDist + "\n";
+        }
+    }
+
     void showGyroInfo()
     {
         accel.text += "Input x: " + MainController.camControl.getX() + "\n";

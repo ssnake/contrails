@@ -8,6 +8,7 @@ public abstract class CoordConverter
     public abstract void LatLong2XY(float latitude, float longitude,float alitutde, out float x, out float y, out float alt);
     public abstract float GetScale(float latitude=0.0f);
 }
+
 public class Mercator1 : CoordConverter
 {
     float R = 6378137.0f;
@@ -58,7 +59,7 @@ public class WebMercator1 : CoordConverter
     public override void LatLong2XY(float latitude, float longitude, float altitude, out float x, out float y, out float alt)
     {
         x = (float)(GetMapWidth() * (longitude + 180.0f) / 360.0f);
-        float sinLat = (float)Math.Sin(latitude * Math.PI / 180);
+        float sinLat = (float)Math.Sin(latitude * Math.PI / 180.0f);
         y = (float)((0.5 - Math.Log((1+sinLat)/ (1-sinLat))/(4*Math.PI))* GetMapWidth() );
         alt = GetScale(latitude) * altitude;
     }

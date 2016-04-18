@@ -10,12 +10,14 @@ public class CameraControl : MonoBehaviour {
 
     float filterDelta = 0.01f;
     Vector3 rotation;
+   
+
     // Use this for initialization
     void Start () {
         MainController.camControl = this;
         Input.compass.enabled = true;
         rotation = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-
+        
     }
 	
 	// Update is called once per frame
@@ -46,12 +48,15 @@ public class CameraControl : MonoBehaviour {
 
         transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, target, Time.deltaTime);
         //transform.rotation = target;
-        
+
         //transform.Rotate( -getX(), getY(), -getZ());
         //Debug.Log("rotation: " + transform.rotation.ToString());
 
+    
 
     }
+    
+
     public float getX()
     {
         //float value = (float)Math.Round(Input.acceleration.z * tiltAngle, filter) * -1.0f;
@@ -63,6 +68,7 @@ public class CameraControl : MonoBehaviour {
         }
         return value;
     }
+
     public float getY()
     {
         float value = (float)Input.compass.magneticHeading;
@@ -75,16 +81,19 @@ public class CameraControl : MonoBehaviour {
         }
         return value;
     }
+
     public float getZ()
     {
         float value = (float)Math.Round(Input.acceleration.x, filter) * -1.0f * tiltAngle;
         return value;
         
     }
+
     float getW()
     {
         return 0.0f * tiltAngle;
     }
+
     float GetDelta(float value, float prevValue)
     {
         if (Math.Abs(prevValue - value) > filterDelta)

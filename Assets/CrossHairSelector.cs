@@ -6,6 +6,7 @@ public class CrossHairSelector : MonoBehaviour {
     public GameObject crosshair;
     public Camera camera;
     public Canvas canvas;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -15,7 +16,6 @@ public class CrossHairSelector : MonoBehaviour {
 	void Update () {
         var crossRect = crosshair.GetComponent<RectTransform>();
         var canvasRect = canvas.GetComponent<RectTransform>();
-
         
         List<GameObject> list = new List<GameObject>();
         list.AddRange(new List<GameObject>(GameObject.FindGameObjectsWithTag("aircraft")));
@@ -34,6 +34,7 @@ public class CrossHairSelector : MonoBehaviour {
         }
 	
 	}
+
     Rect ConvertRects(RectTransform canvas, RectTransform obj)
     {
         Rect r = new Rect();
@@ -42,6 +43,5 @@ public class CrossHairSelector : MonoBehaviour {
         r.width = obj.sizeDelta.x;
         r.height = obj.sizeDelta.y;
         return r;
-
     }
 }
