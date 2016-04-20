@@ -34,6 +34,8 @@ public class UIHighlighter : MonoBehaviour {
         {
             foreach (var obj in list)
             {
+                if (!IsVisible(obj)) continue; 
+                    
                 var v = WorldToCanvasPosition(canvas.GetComponent<RectTransform>(), camera, obj.position);
                 var select = GameObject.Find(namePrefix + obj.origin.id);
 
@@ -42,12 +44,15 @@ public class UIHighlighter : MonoBehaviour {
                     select = Instantiate(selectObject);
                     select.name = namePrefix + obj.origin.id;
                     select.transform.SetParent(canvas.transform);
+                    select.transform.localEulerAngles = Vector3.zero;
                     select.AddComponent<DataHolder>();
-                }
-                else deleteList.Remove(select);
+                } else
+                    deleteList.Remove(select);
+
                 var holder = select.GetComponent<DataHolder>();
                 holder.aircraftImported = obj;
                 select.transform.localPosition = new Vector3(v.x, v.y, 0.0f);
+                
                 var scale = 1.0f / Vector3.Distance(Vector3.zero, obj.position) * 50;
 
                 select.transform.localScale = Vector3.one * System.Math.Max(0.2f, scale);
@@ -59,6 +64,14 @@ public class UIHighlighter : MonoBehaviour {
             Destroy(o);
         }
 
+    }
+    bool IsVisible(AircraftImported craft)
+    {
+        var planes = GeometryUtility.CalculateFrustumPlanes(camera);
+        Bounds b = new Bounds(craft.position, Vector3.one);
+
+
+        return GeometryUtility.TestPlanesAABB(planes, b);
     }
     static public Vector2 WorldToCanvasPosition(RectTransform canvas, Camera camera, Vector3 position)
     {
