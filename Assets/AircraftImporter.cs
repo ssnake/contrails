@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-class AirtcraftImporter
+public class AirtcraftImporter
 {
     protected List<Aircraft> list;
     public AirtcraftImporter()
