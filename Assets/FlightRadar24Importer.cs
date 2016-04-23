@@ -11,40 +11,35 @@ public class FlightRadar24Importer : AirtcraftImporter {
 	
 	public override IEnumerable Import()
 	{
-		var result = GetIdFromJson ("{\"97f6906\":[\"8963E5\",60.9580,17.6808,134,35000,490,\"2540\",\"F-ESSD2\",\"A388\",\"A6-EOH\",1461402984,\"SFO\",\"DXB\",\"EK226\",0,64,\"UAE226\",0]}");
+		var result = GetAircraftsFromJson ("{\"97f6906\":[\"8963E5\",60.9580,17.6808,134,35000,490,\"2540\",\"F-ESSD2\",\"A388\",\"A6-EOH\",1461402984,\"SFO\",\"DXB\",\"EK226\",0,64,\"UAE226\",0]}");
 		return null;
 	}
 
-//	private IEnumerable<string> GetIdFromJson(string json)
-//	{
-//		JObject flightRadardata = JObject.Parse (json);
-//
-//		var keys = flightRadardata.Properties ().Where (x => Regex.IsMatch(x.Name, @"^\d"))
-//			.Select(x => x.Name)
-//			.ToList ();
-//
-//		foreach (var key in keys)
-//			yield return key;
-//	}
-
-	private List<Aircraft> GetIdFromJson(string json)
+	/// <summary>
+	/// Gets the aircrafts from json.
+	/// </summary>
+	/// <returns>The aircrafts from json.</returns>
+	/// <param name="json">Json as web response from flight radar</param>
+	private List<Aircraft> GetAircraftsFromJson(string json)
 	{
-		JSONClass parse = (JSONClass)JSON.Parse (json);
+		JSONClass response = (JSONClass)JSON.Parse (json);
 
-		List<Aircraft> planes = new List<Aircraft> ();
+		var planes = new List<Aircraft> ();
 
-		foreach (var t in parse) {
-			var value = (KeyValuePair<string, JSONNode>)t;
-			if (Regex.IsMatch (value.Key, @"^\d")) {
-				JSONArray mydata = (JSONArray)value.Value;
+		foreach (var responseEntry in response) {
+			var entry = (KeyValuePair<string, JSONNode>)responseEntry;
+			if (Regex.IsMatch (entry.Key, @"^\d")) {
+				JSONArray mydata = (JSONArray)entry.Value;
 
-				var lat = mydata [1].ToString ().Replace("\"", "");
-				var lon = mydata [2].ToString ().Replace("\"", "");
-				var alt = mydata [4].ToString ().Replace("\"", "");
-				var pointId = value.Key.Replace("\"", " ");
-				var flightId = mydata [13].ToString ().Replace("\"", "");
+				var lat = float.Parse(mydata [1].ToString ().Replace("\"", ""));
+				var lon = float.Parse(mydata [2].ToString ().Replace("\"", ""));
+				var alt = float.Parse(mydata [4].ToString ().Replace("\"", ""));
+				var pointId = entry.Key.Replace("\"", " ");
 
-				var plane = new Aircraft (pointId, float.Parse(lon),float.Parse (lat), float.Parse (alt) );
+				//international flight identificator
+				//var flightId = mydata [13].ToString ().Replace("\"", "");
+
+				var plane = new Aircraft (pointId, lon, lat, alt);
 
 				planes.Add (plane);
 			}
