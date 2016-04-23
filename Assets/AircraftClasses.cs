@@ -5,12 +5,12 @@ using System.Text;
 
 public class Aircraft
 {
-    public int id;
+    public string id;
     public float longitude;
     public float latitude;
     public float altitude;
     public List<Waypoint> route;
-    public Aircraft(int id, float longitude, float latitude, float altitude)
+    public Aircraft(string id, float longitude, float latitude, float altitude)
     {
         this.id = id;
         this.longitude = longitude;
