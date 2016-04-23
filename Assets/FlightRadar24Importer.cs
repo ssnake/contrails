@@ -34,7 +34,7 @@ public class FlightRadar24Importer : AirtcraftImporter {
 
 				var lat = float.Parse(mydata [1].ToString ().Replace("\"", ""));
 				var lon = float.Parse(mydata [2].ToString ().Replace("\"", ""));
-				var alt = float.Parse(mydata [4].ToString ().Replace("\"", ""));
+				var alt = float.Parse(mydata [4].ToString ().Replace("\"", "")) * 0.3048f;
 				var pointId = entry.Key.Replace("\"", " ");
 
 				//international flight identificator
