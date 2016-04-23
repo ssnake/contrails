@@ -11,6 +11,7 @@ public class AircraftController : MonoBehaviour {
 
     public GameObject aircraft;
     public GameObject route;
+   
     List<AircraftImported> aircraftList;
     List<AircraftImported> buildingList;
 
@@ -20,7 +21,7 @@ public class AircraftController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         MainController.aircraftController = this;
-        importer = new AircrafImporterEmulate(10, 0 );
+        importer = new AircrafImporterEmulate(60, 10 );
         buildingImporter = new BuildingImporter();
         aircraftList = new List<AircraftImported>();
         buildingList = new List<AircraftImported>();
@@ -120,7 +121,18 @@ public class AircraftController : MonoBehaviour {
     {
         var lr = obj.GetComponent<LineRenderer>();
         List<Vector3> list = new List<Vector3>();
-        for(var i = 0; i < craft.route.Count; i ++)
+        float prevX=0.0f, prevY = 0.0f, prevAlt = 0.0f;
+        var colList = new List<SphereCollider>(obj.GetComponents<SphereCollider>());
+
+
+        while (colList.Count < craft.route.Count + craft.route.Count % 2)
+        {
+            var col = obj.AddComponent<SphereCollider>();
+            col.center = Vector3.zero;
+            colList.Add(col);
+        }
+
+        for (var i = 0; i < craft.route.Count; i ++)
         {
             var lat = craft.route[i].latitude - MainController.gpsController.GetLatitude();
             var lng = craft.route[i].longitude - MainController.gpsController.GetLongitude();
@@ -129,6 +141,26 @@ public class AircraftController : MonoBehaviour {
 
             MainController.mapController.LatLong2XY(lat, lng, alt, out x, out y, out alt);
             list.Add(new Vector3(x, alt, y));
+            
+            
+            if (i != 0)
+            {
+                var col = colList[i - 1];
+                var v = new Vector3(x, alt, y);
+                if (col.center != Vector3.zero)
+                {
+                    Debug.Log("col");
+                    col.center = v;
+                    col.radius = (float)System.Math.Sqrt((x - prevX) * (x - prevX) + (y - prevY) * (y - prevY) + (alt - prevAlt) * (alt - prevAlt)) / 2.0f;
+                }
+
+
+
+
+            }
+            prevX = x;
+            prevY = y;
+            prevAlt = alt;
         }
         lr.SetVertexCount(list.Count);
         lr.SetPositions(list.ToArray());

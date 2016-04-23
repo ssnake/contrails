@@ -6,7 +6,7 @@ public class CrossHairSelector : MonoBehaviour {
     public GameObject crosshair;
     public Camera camera;
     public Canvas canvas;
-
+   
 	// Use this for initialization
 	void Start () {
 	
@@ -32,8 +32,10 @@ public class CrossHairSelector : MonoBehaviour {
                 Debug.Log("Selected: " + craftImported.ToString());
             }
         }
-	
-	}
+
+
+
+    }
 
     Rect ConvertRects(RectTransform canvas, RectTransform obj)
     {
@@ -44,4 +46,5 @@ public class CrossHairSelector : MonoBehaviour {
         r.height = obj.sizeDelta.y;
         return r;
     }
+   
 }

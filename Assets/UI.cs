@@ -49,12 +49,21 @@ public class UI : MonoBehaviour {
         if (contrails != null)
         {
             float minDist, maxDist, lat, lng;
-            MainController.contrailsController.GetContrailsCoord(out minDist, out maxDist, out lat, out lng);
             contrails.text += "Contrails: \n";
-            contrails.text += "Apx Long: " + lng+ "\n";
-            contrails.text += "Apx Lat: " + lat + "\n";
-            contrails.text += "Min Dist: " + minDist + "\n";
-            contrails.text += "Max Dist: " + maxDist + "\n";
+            if (MainController.contrailsController.GetContrailsCoord(out minDist, out maxDist, out lat, out lng))
+            {
+                
+                contrails.text += "Apx Long: " + lng + "\n";
+                contrails.text += "Apx Lat: " + lat + "\n";
+                contrails.text += "Min Dist: " + minDist + "\n";
+                contrails.text += "Max Dist: " + maxDist + "\n";
+            } else
+            {
+                contrails.text += "Apx Long: --\n";
+                contrails.text += "Apx Lat: --\n";
+                contrails.text += "Min Dist: --\n";
+                contrails.text += "Max Dist: --\n";
+            }
         }
     }
 

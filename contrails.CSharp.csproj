@@ -74,6 +74,7 @@
     <Compile Include="Assets\AircraftImporter.cs" />
     <Compile Include="Assets\CameraControl.cs" />
     <Compile Include="Assets\ContrailsController.cs" />
+    <Compile Include="Assets\CrossHairCollider.cs" />
     <Compile Include="Assets\CrossHairSelector.cs" />
     <Compile Include="Assets\GpsController.cs" />
     <Compile Include="Assets\MainController.cs" />
