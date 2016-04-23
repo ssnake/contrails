@@ -20,6 +20,9 @@ public class AircraftController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        var net = new NetworkController();
+        Debug.Log(net.SendRequest("https://data-live.flightradar24.com/zones/fcgi/feed.js?bounds=51.19,50.11,28.35,33.12&faa=1&mlat=1&flarm=1&adsb=1&gnd=1&air=1&vehicles=1&estimated=1&maxage=7200&gliders=1&stats=1"));
+        
         MainController.aircraftController = this;
         importer = new AircrafImporterEmulate(60, 10 );
         buildingImporter = new BuildingImporter();
@@ -29,6 +32,7 @@ public class AircraftController : MonoBehaviour {
         InvokeRepeating("Import", 0.0f, 1.0f);
         //Import();
 	}
+   
 	
 	// Update is called once per frame
 	void Update () {

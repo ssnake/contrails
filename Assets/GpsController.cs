@@ -6,7 +6,7 @@ public class GpsController
     bool emulateGPS;
     public GpsController()
     {
-        emulateGPS = Application.isEditor;
+        emulateGPS = true || Application.isEditor;
        
         if (!emulateGPS) Input.location.Start();
     }
