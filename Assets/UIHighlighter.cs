@@ -55,7 +55,7 @@ public class UIHighlighter : MonoBehaviour {
                 
                 var scale = 1.0f / Vector3.Distance(Vector3.zero, obj.position) * 50;
 
-                select.transform.localScale = Vector3.one * System.Math.Max(0.2f, scale);
+                select.transform.localScale = Vector3.one * System.Math.Max(0.1f, scale);
 
             }
         }

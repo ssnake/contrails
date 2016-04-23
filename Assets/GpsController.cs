@@ -13,12 +13,13 @@ public class GpsController
     //my place lat 50.907154, long 34.820437
     // home 50.937207, 34.768769
     //kiev 50.471110, 30.500214
+    // brussel 50.844749, 4.370956
+    // newyork 40.691154, -74.171536
     public float GetLatitude()
     {
         if (emulateGPS)
         {
-
-            return 50.471110f;
+            return 40.631096f;
             //return 50.93724f;
         }
         else {
@@ -29,7 +30,7 @@ public class GpsController
     {
         if (emulateGPS)
         {
-            return 30.500214f;
+            return -73.778282f;
             //return 34.76892f;
         }
         else {
@@ -52,7 +53,7 @@ public class GpsController
     public float GetAlt()
     {
         if (emulateGPS)
-            return 134.0f;
+            return 0.0f;
         else
             return Input.location.lastData.altitude;
            
