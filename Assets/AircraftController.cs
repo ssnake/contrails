@@ -79,13 +79,14 @@ public class AircraftController : MonoBehaviour {
             ApplyRoute(a, routeObject);
 
         }
-        foreach(Aircraft a in buildingImporter.Import())
+        /*
+        foreach (Aircraft a in buildingImporter.Import())
         {
             var imported = new AircraftImported(a);
             Apply2(a, imported);
             buildingList.Add(imported);
         }
-
+        */
         //clear remaining objects from scene
        
         foreach (GameObject go in deleteList2)
@@ -121,16 +122,8 @@ public class AircraftController : MonoBehaviour {
     {
         var lr = obj.GetComponent<LineRenderer>();
         List<Vector3> list = new List<Vector3>();
-        float prevX=0.0f, prevY = 0.0f, prevAlt = 0.0f;
-        var colList = new List<SphereCollider>(obj.GetComponents<SphereCollider>());
 
-
-        while (colList.Count < craft.route.Count + craft.route.Count % 2)
-        {
-            var col = obj.AddComponent<SphereCollider>();
-            col.center = Vector3.zero;
-            colList.Add(col);
-        }
+       
 
         for (var i = 0; i < craft.route.Count; i ++)
         {
@@ -140,27 +133,8 @@ public class AircraftController : MonoBehaviour {
             float x, y;
 
             MainController.mapController.LatLong2XY(lat, lng, alt, out x, out y, out alt);
-            list.Add(new Vector3(x, alt, y));
-            
-            
-            if (i != 0)
-            {
-                var col = colList[i - 1];
-                var v = new Vector3(x, alt, y);
-                if (col.center != Vector3.zero)
-                {
-                    Debug.Log("col");
-                    col.center = v;
-                    col.radius = (float)System.Math.Sqrt((x - prevX) * (x - prevX) + (y - prevY) * (y - prevY) + (alt - prevAlt) * (alt - prevAlt)) / 2.0f;
-                }
+            list.Add(new Vector3(x, alt, y));           
 
-
-
-
-            }
-            prevX = x;
-            prevY = y;
-            prevAlt = alt;
         }
         lr.SetVertexCount(list.Count);
         lr.SetPositions(list.ToArray());
