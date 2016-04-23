@@ -27,9 +27,29 @@ public class FlightRadar24Importer : AirtcraftImporter {
 //			yield return key;
 //	}
 
-	private IEnumerable<string> GetIdFromJson(string json)
+	private List<Aircraft> GetIdFromJson(string json)
 	{
-		JSONArray arr = JSON.Parse (json) as JSONArray;
-		yield return arr [0].ToString ();
+		JSONClass parse = (JSONClass)JSON.Parse (json);
+
+		List<Aircraft> planes = new List<Aircraft> ();
+
+		foreach (var t in parse) {
+			var value = (KeyValuePair<string, JSONNode>)t;
+			if (Regex.IsMatch (value.Key, @"^\d")) {
+				JSONArray mydata = (JSONArray)value.Value;
+
+				var lat = mydata [1].ToString ().Replace("\"", "");
+				var lon = mydata [2].ToString ().Replace("\"", "");
+				var alt = mydata [4].ToString ().Replace("\"", "");
+				var pointId = value.Key.Replace("\"", " ");
+				var flightId = mydata [13].ToString ().Replace("\"", "");
+
+				var plane = new Aircraft (pointId, float.Parse(lon),float.Parse (lat), float.Parse (alt) );
+
+				planes.Add (plane);
+			}
+		}
+
+		return planes;
 	}
 }

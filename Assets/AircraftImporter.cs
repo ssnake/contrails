@@ -31,28 +31,28 @@ class BuildingImporter : AirtcraftImporter
     {
         var amount = 1000;
        //house 50.908213, 34.822319
-       list.Add(new Aircraft(amount + 2, 34.822319f, 50.908213f, MainController.gpsController.GetAlt() + 50.0f));
-       //bus stop 50.909039, 34.822518
-       list.Add(new Aircraft(amount + 3, 34.822518f, 50.909039f, MainController.gpsController.GetAlt() + 3.0f));
-       //shop 50.908872, 34.821022
-       list.Add(new Aircraft(amount + 4, 34.821022f, 50.908872f, MainController.gpsController.GetAlt() + 3.0f));
-       //tec 50.948070, 34.780939
-       list.Add(new Aircraft(amount + 5, 34.780939f, 50.948070f, MainController.gpsController.GetAlt() + 50.0f));
-       //house 50.915215, 34.828533
-       list.Add(new Aircraft(amount + 6, 34.828533f, 50.915215f, MainController.gpsController.GetAlt() + 50.0f));
-       //house 50.915371, 34.829048
-       list.Add(new Aircraft(amount + 7, 34.829048f, 50.915371f, MainController.gpsController.GetAlt() + 50.0f));
-
-       //house 50.910667, 34.822622
-       list.Add(new Aircraft(amount + 8, 34.822622f, 50.910667f, MainController.gpsController.GetAlt() + 50.0f));
-       //monument 50.895055, 34.789054
-       list.Add(new Aircraft(amount + 9, 34.789054f, 50.895055f, MainController.gpsController.GetAlt() + 50.0f));
-       //house 50.890367, 34.799896
-       list.Add(new Aircraft(amount + 10, 34.799896f, 50.890367f, MainController.gpsController.GetAlt() + 50.0f));
-       //cathedral 50.909251, 34.800637
-       list.Add(new Aircraft(amount + 11, 34.800637f, 50.909251f, MainController.gpsController.GetAlt() + 50.0f));
-       //bankovsk 50.893771, 34.802704
-       list.Add(new Aircraft(amount + 11, 34.802704f, 50.893771f, MainController.gpsController.GetAlt() + 50.0f));
+//       list.Add(new Aircraft(amount + 2, 34.822319f, 50.908213f, MainController.gpsController.GetAlt() + 50.0f));
+//       //bus stop 50.909039, 34.822518
+//       list.Add(new Aircraft(amount + 3, 34.822518f, 50.909039f, MainController.gpsController.GetAlt() + 3.0f));
+//       //shop 50.908872, 34.821022
+//       list.Add(new Aircraft(amount + 4, 34.821022f, 50.908872f, MainController.gpsController.GetAlt() + 3.0f));
+//       //tec 50.948070, 34.780939
+//       list.Add(new Aircraft(amount + 5, 34.780939f, 50.948070f, MainController.gpsController.GetAlt() + 50.0f));
+//       //house 50.915215, 34.828533
+//       list.Add(new Aircraft(amount + 6, 34.828533f, 50.915215f, MainController.gpsController.GetAlt() + 50.0f));
+//       //house 50.915371, 34.829048
+//       list.Add(new Aircraft(amount + 7, 34.829048f, 50.915371f, MainController.gpsController.GetAlt() + 50.0f));
+//
+//       //house 50.910667, 34.822622
+//       list.Add(new Aircraft(amount + 8, 34.822622f, 50.910667f, MainController.gpsController.GetAlt() + 50.0f));
+//       //monument 50.895055, 34.789054
+//       list.Add(new Aircraft(amount + 9, 34.789054f, 50.895055f, MainController.gpsController.GetAlt() + 50.0f));
+//       //house 50.890367, 34.799896
+//       list.Add(new Aircraft(amount + 10, 34.799896f, 50.890367f, MainController.gpsController.GetAlt() + 50.0f));
+//       //cathedral 50.909251, 34.800637
+//       list.Add(new Aircraft(amount + 11, 34.800637f, 50.909251f, MainController.gpsController.GetAlt() + 50.0f));
+//       //bankovsk 50.893771, 34.802704
+//       list.Add(new Aircraft(amount + 11, 34.802704f, 50.893771f, MainController.gpsController.GetAlt() + 50.0f));
 
 
   
@@ -91,15 +91,15 @@ class AircrafImporterEmulate : AirtcraftImporter
         list.Clear();
         for (int i = 0; i < amount; i++)
         {
-            list.Add(GenerateRoute(GenerateAircraft(i, baseLong, baseLat, radiusKM), 100, 30000));
+			list.Add(GenerateRoute(GenerateAircraft(i.ToString(), baseLong, baseLat, radiusKM), 100, 30000));
 
         }
         
-        list.Add(GenerateRoute(new Aircraft(amount + 1, MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), MainController.gpsController.GetAlt() + 100), 100, 1000));
+		list.Add(GenerateRoute(new Aircraft((amount + 1).ToString(), MainController.gpsController.GetLongitude(), MainController.gpsController.GetLatitude(), MainController.gpsController.GetAlt() + 100), 100, 1000));
        
 
     }
-    Aircraft GenerateAircraft(int id, float baseLong, float baseLat, int radiusKM)
+    Aircraft GenerateAircraft(string id, float baseLong, float baseLat, int radiusKM)
     {
         Aircraft craft = new Aircraft(id, baseLong, baseLat, Random.Range(1000, 12000));
         int radius = Random.Range(500, radiusKM * 1000);//random radius in meters
