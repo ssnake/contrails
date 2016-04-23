@@ -13,8 +13,9 @@ public class DistPointConv : DistPoint
     public override void GetPoint(float latitude, float longitude, float bearing, float distance, out float newLat, out float newLong)
     {
         float R = 6378137.0f;
-        latitude = (float)(latitude * Math.PI / 180.0f);
-        longitude = (float)(longitude * Math.PI / 180.0f);
+        latitude = (float)((latitude) * Math.PI / 180.0f);
+        longitude = (float)((longitude ) * Math.PI / 180.0f);
+        bearing = (float)(bearing * Math.PI / 180.0f);
 
         newLat = (float)(Math.Asin(Math.Sin(latitude) * Math.Cos(distance / R) + Math.Cos(latitude) * Math.Sin(distance / R) * Math.Cos(bearing)));
         newLong = (float)(longitude + Math.Atan2(Math.Sin(bearing) * Math.Sin(distance / R) * Math.Cos(latitude), Math.Cos(distance / R) - Math.Sin(latitude) * Math.Sin(newLat)));
