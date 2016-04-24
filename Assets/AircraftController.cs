@@ -28,8 +28,8 @@ public class AircraftController : MonoBehaviour {
         aircraftList = new List<AircraftImported>();
         buildingList = new List<AircraftImported>();
 
-        //InvokeRepeating("Import", 0.0f, 1.0f);
-        Import();
+        InvokeRepeating("Import", 0.0f, 1.0f);
+        //Import();
 	}
    
 	

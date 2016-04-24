@@ -16,7 +16,7 @@ public class FlightRadar24Importer : AirtcraftImporter {
         net = new NetworkController();
         
         var data = GetData(GetUrl());
-        list = GetAircraftsFromJson(data);
+        list = GetAircraftsFromJson2(data);
         CalculateWaypoints(list);
     }
     public override IEnumerable Import()
@@ -27,12 +27,32 @@ public class FlightRadar24Importer : AirtcraftImporter {
         return list;
 	}
 
-	/// <summary>
-	/// Gets the aircrafts from json.
-	/// </summary>
-	/// <returns>The aircrafts from json.</returns>
-	/// <param name="json">Json as web response from flight radar</param>
-	private List<Aircraft> GetAircraftsFromJson(string json)
+    private List<Aircraft> GetAircraftsFromJson2(string json)
+    {
+        var obj = new JSONObject(json);
+        var list = new List<Aircraft>();
+
+        for(var i = 0; i< obj.Count; i++)
+        {
+            if (Regex.IsMatch(obj.keys[i], @"^\d"))
+            {
+                
+                var lat = obj.list[i].list[1].f;
+                var lng = obj.list[i].list[2].f;
+                var alt = obj.list[i].list[4].f * 0.3048f;
+                var plane = new Aircraft(obj.keys[i], lng, lat, alt);
+                list.Add(plane);
+            }
+        }
+        return list;
+
+    }
+    /// <summary>
+    /// Gets the aircrafts from json.
+    /// </summary>
+    /// <returns>The aircrafts from json.</returns>
+    /// <param name="json">Json as web response from flight radar</param>
+    private List<Aircraft> GetAircraftsFromJson(string json)
 	{
         Debug.Log("Parsing: " + json);
 		JSONClass response = (JSONClass)JSON.Parse (json);
