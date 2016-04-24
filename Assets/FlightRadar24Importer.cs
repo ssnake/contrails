@@ -9,14 +9,22 @@ using SimpleJSON;
 
 public class FlightRadar24Importer : AirtcraftImporter {
     DistPoint distPoint;
+    NetworkController net;
 
-	public override IEnumerable Import()
+    public FlightRadar24Importer()
+    {
+        net = new NetworkController();
+        
+        var data = GetData(GetUrl());
+        list = GetAircraftsFromJson(data);
+        CalculateWaypoints(list);
+    }
+    public override IEnumerable Import()
     {//50.907154, long 34.820437
         //var result = GetAircraftsFromJson ("{\"97f6906\":[\"8963E5\",50.907154, 34.820437,134,1000,490,\"2540\",\"F-ESSD2\",\"A388\",\"A6-EOH\",1461402984,\"SFO\",\"DXB\",\"EK226\",0,64,\"UAE226\",0]}");
-        var data = "";
-        GetData(GetUrl(), out data);
-        var result = GetAircraftsFromJson(data);
-        return result;
+        
+        
+        return list;
 	}
 
 	/// <summary>
@@ -26,6 +34,7 @@ public class FlightRadar24Importer : AirtcraftImporter {
 	/// <param name="json">Json as web response from flight radar</param>
 	private List<Aircraft> GetAircraftsFromJson(string json)
 	{
+        Debug.Log("Parsing: " + json);
 		JSONClass response = (JSONClass)JSON.Parse (json);
 
 		var planes = new List<Aircraft> ();
@@ -51,13 +60,104 @@ public class FlightRadar24Importer : AirtcraftImporter {
 
 		return planes;
 	}
-    bool GetData(string url, out string data)
+    private void CalculateWaypoints(List<Aircraft> planes)
     {
-        var net = new NetworkController();
-        data = net.SendRequest(url);
-        return true;
+        foreach (var plane in planes)
+        {
+            var responseForPlane = GetDataWaypoints(plane);
+            
+            
+            UpdateWaypoint2(plane, responseForPlane);
+            
+        }
+    }
+    private void UpdateWaypoint2(Aircraft plane, string json)
+    {
+        var obj = new JSONObject(json);
+        var i = obj.keys.IndexOf("trail");
+        if ( i >= 0)
+        {
+            var trailsObj = obj.list[i];
+            foreach(var elem in trailsObj.list)
+            {
+                Waypoint wayPoint = new Waypoint(0, 0, 0);
+                elem.GetField(out wayPoint.altitude, "alt", 0.0f);
+                elem.GetField(out wayPoint.latitude, "lat", 0.0f);
+                elem.GetField(out wayPoint.longitude, "lng", 0.0f);
+                if (wayPoint.ToVector().magnitude != 0.0f)
+                    plane.route.Add(wayPoint);
+
+            }
+            
+            
+        }
+        
+
+        
+    }
+    private void UpdateWaypoint(Aircraft plane, string json)
+    {
+        JSONClass response = (JSONClass)JSON.Parse(json);
+
+        List<Waypoint> points = new List<Waypoint>();
+
+        foreach (var responseEntry in response)
+        {
+            var entry = (KeyValuePair<string, JSONNode>)responseEntry;
+            if (entry.Key.Contains("trail"))
+            {
+                JSONArray mydata = (JSONArray)entry.Value;
+
+                var children = mydata.Children;
+                //var history = (JSONClass)mydata [0];
+
+                Waypoint wayPoint = new Waypoint(0, 0, 0);
+
+                foreach (var line in children)
+                {
+                    
+                    
+                    foreach (var kvp in (JSONClass) line)
+                    {
+                        var pair = (KeyValuePair<string, JSONNode>)kvp;
+                        var key = pair.Key;
+                        var val = pair.Value.ToString();
+
+                        switch (key)
+                        {
+                            case "lat":
+                                wayPoint.latitude = float.Parse(val);
+                                break;
+
+                            case "lng":
+                                wayPoint.longitude = float.Parse(val);
+                                break;
+
+                            case "alt":
+                                wayPoint.altitude = float.Parse(val);
+                                break;
+                        }
+
+                        points.Add(wayPoint);
+                    }
+                }
+            }
+        }
+
+        plane.route = points;
+    }
+    string GetData(string url)
+    {
+        
+        return net.SendRequest(url);
+      
 
 
+    }
+    string GetDataWaypoints(Aircraft craft)
+    {
+        var url = "https://data-live.flightradar24.com/clickhandler/?version=1.5&flight="+craft.id+"&altitude=0&equip_hint=E190";
+        return net.SendRequest(url);
     }
     void GetRectangle(float lat, float lng, float dist, out float lat1, out float lng1, out float lat2, out float lng2)
     {

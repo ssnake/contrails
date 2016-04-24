@@ -53,7 +53,7 @@ public class UIHighlighter : MonoBehaviour {
                 holder.aircraftImported = obj;
                 select.transform.localPosition = new Vector3(v.x, v.y, 0.0f);
                 
-                var scale = 1.0f / Vector3.Distance(Vector3.zero, obj.position) * 50;
+                var scale = 1.0f / Vector3.Distance(Vector3.zero, obj.position) * 40;
 
                 select.transform.localScale = Vector3.one * System.Math.Max(0.1f, scale);
 

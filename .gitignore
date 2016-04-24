@@ -3,3 +3,5 @@ Library
 
 *.apk
 .vs
+*.meta
+*.orig

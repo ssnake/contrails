@@ -78,6 +78,9 @@
     <Compile Include="Assets\CrossHairSelector.cs" />
     <Compile Include="Assets\FlightRadar24Importer.cs" />
     <Compile Include="Assets\GpsController.cs" />
+    <Compile Include="Assets\JSON\JSONObject.cs" />
+    <Compile Include="Assets\JSON\JSONTemplates.cs" />
+    <Compile Include="Assets\JSON\VectorTemplates.cs" />
     <Compile Include="Assets\JsonParser.cs" />
     <Compile Include="Assets\MainController.cs" />
     <Compile Include="Assets\MapController.cs" />
@@ -89,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Forest Grounds - Terrain Texture Pack\Readme.txt" />
+    <None Include="Assets\JSON\readme.txt" />
     <None Include="Assets\SimpleCloudSystem by RM\Read Me.txt" />
     <None Include="Assets\SimpleCloudSystem by RM\SCS Instructions.txt" />
     <None Include="Assets\Standard Assets\Vehicles\Aircraft\AircraftGuidelines.txt" />

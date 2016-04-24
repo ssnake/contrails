@@ -4,10 +4,14 @@ using System.Collections;
 public class GpsController
 {
     bool emulateGPS;
+    float emulatedLat;
+    float emulatedLong;
+
     public GpsController()
     {
         emulateGPS = true || Application.isEditor;
-       
+        emulatedLat = 40.631096f;
+        emulatedLong = -73.778282f;
         if (!emulateGPS) Input.location.Start();
     }
     //my place lat 50.907154, long 34.820437
@@ -19,7 +23,7 @@ public class GpsController
     {
         if (emulateGPS)
         {
-            return 40.631096f;
+            return emulatedLat;
             //return 50.93724f;
         }
         else {
@@ -30,7 +34,7 @@ public class GpsController
     {
         if (emulateGPS)
         {
-            return -73.778282f;
+            return emulatedLong;
             //return 34.76892f;
         }
         else {

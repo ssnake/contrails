@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Forest Grounds - Terrain Texture Pack\Readme.txt" />
+    <None Include="Assets\JSON\readme.txt" />
     <None Include="Assets\SimpleCloudSystem by RM\Read Me.txt" />
     <None Include="Assets\SimpleCloudSystem by RM\SCS Instructions.txt" />
     <None Include="Assets\Standard Assets\Vehicles\Aircraft\AircraftGuidelines.txt" />
