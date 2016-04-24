@@ -10,9 +10,10 @@ public class GpsController
     public GpsController()
     {
         emulateGPS = true || Application.isEditor;
-		//50.466211, 30.508632
-		emulatedLat = 50.466211f;
-		emulatedLong = 30.466211f;
+        //50.466211, 30.508632
+        //51.468679, -0.456624
+        emulatedLat = 51.468679f;
+		emulatedLong = -0.456624f;
 //        emulatedLat = 40.631096f;
 //        emulatedLong = -73.778282f;
         if (!emulateGPS) Input.location.Start();

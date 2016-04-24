@@ -76,8 +76,13 @@ public class CameraControl : MonoBehaviour {
         {
             //transform.Rotate(Vector3.up, Input.GetAxis("Mouse X"));
             value = rotation.y +  Input.GetAxis("Mouse X")  * Time.deltaTime * speed;
-           // Debug.Log("Mouse X: " + Input.GetAxis("Mouse X"));
-            
+            if (Input.touchCount > 0)
+            {
+                value = rotation.y +Input.touches[0].deltaPosition.x ;
+                
+            }
+            // Debug.Log("Mouse X: " + Input.GetAxis("Mouse X"));
+
         }
         return value;
     }
