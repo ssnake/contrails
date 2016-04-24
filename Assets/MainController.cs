@@ -9,6 +9,7 @@ public class MainController : MonoBehaviour {
     public static GpsController gpsController;
     public static AircraftController aircraftController;
     public static ContrailsController contrailsController;
+    public static ConfigData config;
 
     // Use this for initialization
     void Awake () {

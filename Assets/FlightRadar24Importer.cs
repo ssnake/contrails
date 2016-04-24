@@ -109,7 +109,7 @@ public class FlightRadar24Importer : AirtcraftImporter {
         GetRectangle(
             MainController.gpsController.GetLatitude(),
             MainController.gpsController.GetLongitude(),
-            60000.0f,
+            MainController.config.visibleDistance,
             out lat1,
             out lng1,
             out lat2,
