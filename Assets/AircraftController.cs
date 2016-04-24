@@ -23,11 +23,11 @@ public class AircraftController : MonoBehaviour {
        
         MainController.aircraftController = this;
         //importer = new AircrafImporterEmulate(60, 10 );
-		importer = new FlightRadar24Importer();
+		
         buildingImporter = new BuildingImporter();
         aircraftList = new List<AircraftImported>();
         buildingList = new List<AircraftImported>();
-
+        importer = new FlightRadar24Importer();
         InvokeRepeating("Import", 0.0f, 1.0f);
         //Import();
 	}

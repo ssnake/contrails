@@ -50,9 +50,11 @@ public class FlightRadar24Importer : AirtcraftImporter {
         foreach (var plane in planes)
         {
             var responseForPlane = GetDataWaypoints(plane);
-            
-            
-            UpdateWaypoint2(plane, responseForPlane);
+
+            try
+            {
+                UpdateWaypoint2(plane, responseForPlane);
+            } catch { };
             
         }
     }
