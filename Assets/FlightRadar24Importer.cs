@@ -35,11 +35,15 @@ public class FlightRadar24Importer : AirtcraftImporter {
             {
                 var responseForPlane = GetDataWaypoints(plane);
                 yield return null;
-                try
-                {
-                    UpdateWaypoint2(plane, responseForPlane);
-                }
-                catch { };
+               
+                    foreach (var wp in UpdateWaypoint2(responseForPlane))
+                    {
+
+                        if (wp.altitude > 7000)
+                            plane.route.Add(wp);
+                        yield return null;
+                    };
+                
 
             }
             list = tempList;
@@ -75,9 +79,17 @@ public class FlightRadar24Importer : AirtcraftImporter {
     }
     
 
-    private void UpdateWaypoint2(Aircraft plane, string json)
+    private IEnumerable<Waypoint> UpdateWaypoint2(string json)
     {
-        var obj = new JSONObject(json);
+        JSONObject obj;
+        try
+        {
+            obj = new JSONObject(json);
+        } catch
+        {
+            yield break;
+        }
+
         var i = obj.keys.IndexOf("trail");
         if ( i >= 0)
         {
@@ -89,7 +101,7 @@ public class FlightRadar24Importer : AirtcraftImporter {
                 elem.GetField(out wayPoint.latitude, "lat", 0.0f);
                 elem.GetField(out wayPoint.longitude, "lng", 0.0f);
                 if (wayPoint.ToVector().magnitude != 0.0f)
-                    plane.route.Add(wayPoint);
+                    yield return wayPoint;
 
             }
             

@@ -22,7 +22,7 @@ public class UIHighlighter : MonoBehaviour {
         var list = MainController.aircraftController.AircraftList;
         var listBuilding = MainController.aircraftController.BuildingList;
         List2UI(list, "aircraft_", "aircraft", selectUI);
-        List2UI(listBuilding, "building_", "building", selectUIBuilding);
+       // List2UI(listBuilding, "building_", "building", selectUIBuilding);
 
 
     }

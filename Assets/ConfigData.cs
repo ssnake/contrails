@@ -8,7 +8,7 @@ public class ConfigData : MonoBehaviour {
    // Use this for initialization
     void Awake () {
         MainController.config = this;
-        Camera.main.farClipPlane = visibleDistance;
+        Camera.main.farClipPlane = visibleDistance * 2;
 	}
 	
 	// Update is called once per frame
