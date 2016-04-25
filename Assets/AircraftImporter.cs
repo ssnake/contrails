@@ -2,20 +2,28 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class AirtcraftImporter
+public class AirtcraftImporter 
 {
     protected List<Aircraft> list;
-    public AirtcraftImporter()
+    public bool IsImporting { get; set; }
+    public bool IsImported { get; set; }
+    public AirtcraftImporter(): base()
     {
+        IsImporting = false;
+        IsImported = false;
         this.list = new List<Aircraft>();
     }
-    public virtual IEnumerable Import()
+    public virtual IEnumerator Import()
     {
-        foreach (Aircraft a in list)
-        {
-            yield return a;
-        }
+
+        yield return null;
     }
+
+    public virtual List<Aircraft> GetList()
+    {
+        return list;
+    }
+
     public List<Aircraft> AircraftList
     {
         get
@@ -145,10 +153,34 @@ class AircrafImporterEmulate : AirtcraftImporter
         }
         return craft;
     }
-    public override IEnumerable Import()
+    public override IEnumerator Import()
     {
-        if (MainController.gpsController.Started() && list.Count == 0) Populate();
-        return base.Import();
+        IsImporting = true;
+        try
+        {
+            if (MainController.gpsController.Started() && list.Count == 0)
+            {
+                Debug.Log("1");
+                yield return null;
+                Debug.Log("2");
+                yield return null;
+                Debug.Log("3");
+                yield return null;
+                Debug.Log("4");
+                yield return null;
+                Debug.Log("5");
+                yield return null;
+
+                Populate();
+            }
+        }
+        finally
+        {
+            IsImporting = false;
+            IsImported = true;
+        }
+
     }
+    
 };
 

@@ -7,27 +7,56 @@ using System.Text.RegularExpressions;
 public class FlightRadar24Importer : AirtcraftImporter {
     DistPoint distPoint;
     NetworkController net;
+    
 
     public FlightRadar24Importer()
     {
         net = new NetworkController();
         
-        var data = GetData(GetUrl());
-        list = GetAircraftsFromJson2(data);
-        CalculateWaypoints(list);
     }
-    public override IEnumerable Import()
-    {//50.907154, long 34.820437
-        //var result = GetAircraftsFromJson ("{\"97f6906\":[\"8963E5\",50.907154, 34.820437,134,1000,490,\"2540\",\"F-ESSD2\",\"A388\",\"A6-EOH\",1461402984,\"SFO\",\"DXB\",\"EK226\",0,64,\"UAE226\",0]}");
-        
-        
-        return list;
+    public override IEnumerator Import()
+    {
+        IsImporting = true;
+        try
+        {
+            var tempList = list;// new List<Aircraft>();
+            
+
+            var data = GetData(GetUrl());
+            yield return null;
+            foreach (var plane in GetAircraftsFromJson2(data))
+            {
+
+                tempList.Add(plane);
+
+            }
+
+            foreach (var plane in tempList)
+            {
+                var responseForPlane = GetDataWaypoints(plane);
+                yield return null;
+                try
+                {
+                    UpdateWaypoint2(plane, responseForPlane);
+                }
+                catch { };
+
+            }
+            list = tempList;
+
+            
+
+        } finally
+        {
+            IsImported = true;
+            IsImporting = false;
+        }
 	}
 
-    private List<Aircraft> GetAircraftsFromJson2(string json)
+    private IEnumerable<Aircraft>  GetAircraftsFromJson2(string json)
     {
         var obj = new JSONObject(json);
-        var list = new List<Aircraft>();
+       
 
         for(var i = 0; i< obj.Count; i++)
         {
@@ -38,26 +67,14 @@ public class FlightRadar24Importer : AirtcraftImporter {
                 var lng = obj.list[i].list[2].f;
                 var alt = obj.list[i].list[4].f * 0.3048f;
                 var plane = new Aircraft(obj.keys[i], lng, lat, alt);
-                list.Add(plane);
+                yield return plane;
             }
         }
-        return list;
+       
 
     }
     
-    private void CalculateWaypoints(List<Aircraft> planes)
-    {
-        foreach (var plane in planes)
-        {
-            var responseForPlane = GetDataWaypoints(plane);
 
-            try
-            {
-                UpdateWaypoint2(plane, responseForPlane);
-            } catch { };
-            
-        }
-    }
     private void UpdateWaypoint2(Aircraft plane, string json)
     {
         var obj = new JSONObject(json);

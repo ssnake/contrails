@@ -22,11 +22,13 @@ public class AircraftController : MonoBehaviour {
     void Start () {
        
         MainController.aircraftController = this;
-        //importer = new AircrafImporterEmulate(60, 10 );
+        
 		
         buildingImporter = new BuildingImporter();
         aircraftList = new List<AircraftImported>();
         buildingList = new List<AircraftImported>();
+
+        //importer = new AircrafImporterEmulate(60, 10);
         importer = new FlightRadar24Importer();
         InvokeRepeating("Import", 0.0f, 1.0f);
         //Import();
@@ -35,7 +37,10 @@ public class AircraftController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	}
+        if (!importer.IsImported && !importer.IsImporting)
+            StartCoroutine(importer.Import());
+
+    }
 
     public List<AircraftImported> AircraftList
     {
@@ -57,10 +62,10 @@ public class AircraftController : MonoBehaviour {
 
         aircraftList.Clear();
         buildingList.Clear();
-
+       
 
         var deleteList2 = new List<GameObject>(GameObject.FindGameObjectsWithTag("route"));
-        foreach (Aircraft a in importer.Import())
+        foreach (Aircraft a in importer.GetList())
         {
 
             var imported = new AircraftImported(a);
