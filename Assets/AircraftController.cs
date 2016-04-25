@@ -14,7 +14,12 @@ public class AircraftController : MonoBehaviour {
    
     List<AircraftImported> aircraftList;
     List<AircraftImported> buildingList;
-
+    public bool IsImporting
+    {
+        get {
+            return importer.IsImporting;
+        }
+    }
 
 
 

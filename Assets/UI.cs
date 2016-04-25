@@ -10,6 +10,7 @@ public class UI : MonoBehaviour {
     public Text gps;
     public Text contrails;
     public GameObject compassArrow;
+    public GameObject loadingPanel;
 	// Use this for initialization
 	void Start () {
 
@@ -29,6 +30,9 @@ public class UI : MonoBehaviour {
         if (showGps) showLocation();
         showContrailsCoord();
         if (compassArrow != null) UpdateCompass();
+        
+        
+        if (loadingPanel != null) loadingPanel.SetActive(MainController.aircraftController.IsImporting);
     }
 
     private void UpdateCompass()
